@@ -1,0 +1,9 @@
+.iconButton {
+  background: none;
+  border: none;
+  padding: 0;
+  outline: 0;
+  all: unset;
+  display: inline-flex;
+  cursor: pointer;
+}

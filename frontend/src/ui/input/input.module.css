@@ -1,0 +1,104 @@
+.generalContainer {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 100%;
+  gap: 4px;
+}
+
+.inputContainer {
+  display: flex;
+  align-items: flex-end;
+  border: 1px solid var(--color-caption);
+  border-radius: 12px;
+  background-color: var( --color-card-input);
+  padding: 11px;
+}
+
+.inputContainerWithError {
+  display: flex;
+  align-items: flex-end;
+  border: 1px solid var(--color-error);
+  border-radius: 12px;
+  background-color: var( --color-card-input);
+  padding: 11px;
+}
+
+.input {
+  width: 100%;
+  border: 1px solid var( --color-card-input);
+  outline: none;
+  color: var(--color-text);
+  font-size: 16px;
+}
+
+input::placeholder {
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 2%;
+  color: var(--color-caption);
+}
+
+.icon {
+  line-height: 0;
+  margin-left: auto;
+  padding-right: 11px;
+  padding-block: 0;
+}
+
+.error {
+  margin: 0;
+  text-align: left;
+  color: var(--color-error);
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 2%;
+}
+
+.extra_text {
+  margin: 0;
+  margin-left: 2px;
+  text-align: left;
+  color: var(--color-text);
+  font-family: Roboto;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: 2%;
+}
+
+.textArea {
+  width: 94%;
+  outline: none;
+  color: var(--color-text);
+  font-size: 16px;
+  border: 1px solid var(--color-caption);
+  border-radius: 12px;
+  background-color: var( --color-card-input);
+  padding: 11px;
+  min-width: 390px;
+  font-family: Roboto;
+  font-weight: 400;
+  font-style: Regular;
+  line-height: 24px;
+  letter-spacing: 2%;
+}
+
+.textAreaWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.multilineIcon {
+  position: absolute;
+  right: 20px; 
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  opacity: .5;
+}

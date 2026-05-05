@@ -1,0 +1,71 @@
+.H1 {
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: 32px;
+  line-height: 40px;
+  margin: 0;
+}
+
+.H2 {
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  margin: 0;
+}
+
+.H3 {
+  font-family: 'Jost', sans-serif;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 24px;
+  margin: 0;
+}
+
+.H4 {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  margin: 0;
+}
+
+.Body {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 24px;
+}
+
+.Caption {
+  font-family: 'Roboto', sans-serif;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 16px;
+}
+
+.large.H1 {
+  font-size: 36px;
+  line-height: 44px;
+}
+
+.large.H2 {
+  font-size: 28px;
+  line-height: 36px;
+}
+
+.large.H3 {
+  font-size: 22px;
+  line-height: 28px;
+}
+
+.large.H4,
+.large.Body {
+  font-size: 18px;
+  line-height: 28px;
+}
+
+.large.Caption {
+  font-size: 14px;
+  line-height: 20px;
+}

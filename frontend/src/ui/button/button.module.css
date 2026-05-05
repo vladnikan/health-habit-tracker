@@ -1,0 +1,80 @@
+:root {
+    --min-primary-button-width: 208px;
+    --min-button-height: 48px;
+    --min-rest-button-width: 200px;
+}
+
+.button {
+    border-radius: 12px;
+    border: 1px solid;
+    cursor: pointer;
+    font-family: 'Roboto', Arial, Helvetica, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 24px; 
+    display: flex; 
+    gap: 8px;
+    justify-content: center;
+    align-items: center;
+    font-weight: 400;
+}
+
+.primary__button {
+    background-color: var(--color-accent);
+    color: var(--accent-text);
+    border: none;
+
+    min-height: var(--min-button-height);
+    min-width: var(--min-primary-button-width);
+}
+
+.primary__button:hover {
+    background-color: var(--color-button-hover);
+    color: var(--accent-text);
+    transition: background-color .2s ease, color .2s ease; 
+}
+
+.primary__button:active {
+    background-color: var(--color-text-link-button-pressed);
+    color: var(--color-card-input);
+}
+
+.primary__button:disabled {
+    background-color: var(--color-disabled);
+    color: var(--color-caption);
+}
+
+.secondary__button {
+    background-color: var(--color-card-input);
+    color: var(--color-text);
+    border-color: var(--color-accent);
+
+    min-height: var(--min-button-height);
+    min-width: var(--min-secondary-button-width);
+}
+
+.secondary__button:hover {
+    border-color: var(--color-accent);
+    color: var(--color-caption);
+
+    transition: background-color .2s ease, color .2s ease; 
+}
+
+.secondary__button:active {
+    border-color: var(--color-text-link-button-pressed);
+    color: var(--color-text);
+}
+
+.secondary__button:disabled {
+    background-color: var(--color-disabled);
+    color: var(--color-caption);
+}
+
+.tertiary__button {
+    border: none;
+    background-color: var(--color-card-input);
+    color: var(--accent-text);
+
+    min-width: var(--min-tertiary-button-width);
+    min-height: var(--min-button-height);
+}

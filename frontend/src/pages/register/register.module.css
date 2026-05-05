@@ -1,0 +1,169 @@
+.steps {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  margin: 12px 0 32px;
+}
+
+.step {
+  width: 60px;
+  height: 4px;
+  border-radius: 8px;
+  background-color: var(--color-accent);
+}
+
+.stepActive {
+  background-color: var(--color-disabled);
+}
+
+.register {
+  display: flex;
+  flex-direction: row;
+  gap: 24px;
+  justify-content: center;
+}
+
+.left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  max-width: 556px;
+  gap: 32px;
+  border-radius: 12px;
+  background-color: var(--color-card-input);
+  padding: 60px;
+}
+
+.right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  gap: 40px;
+  border-radius: 12px;
+  background-color: var(--color-card-input);
+  padding: 60px;
+}
+
+.right_text {
+  display: flex;
+  flex-direction: column;
+  max-width: 430px;
+  gap: 12px
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 400;
+  font-family: Roboto;
+  gap: 12px;
+}
+
+.buttons_step_1_google button {
+  background-color: var(--color-card-input);
+  border: 1px solid var(--color-caption);
+}
+
+.buttons_step_1_google button:hover {
+  background-color: var(--color-background);
+  border: 1px solid var(--color-toggle);
+}
+
+.buttons_step_1_group {
+  display: flex;
+  width: 436px;
+  flex-direction: column;
+  align-items: center;
+  gap: 24px;
+}
+
+.buttons_step_1, .inputs_step_1 {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 436px;
+  align-items: stretch;
+}
+
+.input {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 4px;
+}
+
+.divider {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  position: relative;
+}
+
+.divider span {
+  z-index: 1;
+  background-color: var(--color-card-input);
+  padding-inline: 10px;
+}
+
+.divider::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  border-bottom: 1px solid var(--color-disabled);
+}
+
+.inputs_step_2_group {
+  display: flex;
+  width: 436px;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 16px;
+}
+
+.input_column {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 24px;
+}
+
+.input_row {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.buttons_row {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+}
+
+.template_loader {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  box-sizing: border-box;
+  padding: 20px;
+  border: 3px dotted var(--color-accent);
+  border-radius: 12px;
+  gap: 8px;
+  color: var(--color-disabled-text);
+  cursor: no-drop;
+}
+
+.template_div {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+  color: var(--color-accent);
+}

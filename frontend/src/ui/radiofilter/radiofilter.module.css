@@ -1,0 +1,33 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.item {
+  all: unset;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  cursor: pointer;
+}
+
+.item:focus-visible {
+  outline: 2px solid var(--color-accent, #63b33b);
+  outline-offset: 2px;
+  border-radius: 8px;
+}
+
+.label {
+  font-family: var(--font-family, inherit);
+  font-size: 16px;
+  line-height: 22px;
+  color: var(--color-text-primary, #171717);
+}
+
+
+
+
+
+
+

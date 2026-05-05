@@ -1,0 +1,124 @@
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 48px;
+  align-items: center;
+}
+
+.twoColumsContainer {
+  display: flex;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  background-color: transparent;
+}
+
+.leftColumn {
+  display: border-box;
+  padding: 88px 60px 60px 60px;
+  border-radius: 12px;
+  inline-size: 436px;
+  background-color: var(--color-card-input);
+}
+
+.elementList {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  border: 1px solid var(--color-caption);
+  width: 436px;
+  background-color: transparent;
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  margin: 24px 0 30px 0;
+}
+
+.divider::before,
+.divider::after {
+  content: '';
+  flex: 1;
+  border-bottom: 1px solid var(--color-caption);
+}
+
+.dividerText {
+  padding: 0 10px;
+  white-space: nowrap;
+  font-family: var(--color-text);
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 1.5em;
+  letter-spacing: 0.02em;
+  vertical-align: middle;
+}
+
+.logInButton {
+  inline-size: 100%;
+  background-color: var(--color-accent);
+  font-family: Roboto;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 2%;
+}
+
+.registerButton:hover {
+  border-color: var(--color-caption);
+}
+
+.registerButton {
+  inline-size: 100%;
+  color: var(--color-accent);
+  background-color: transparent;
+  font-family: Roboto;
+  font-weight: 400;
+  font-style: Regular;
+  font-size: 16px;
+  line-height: 24px;
+  letter-spacing: 2%;
+}
+
+.labelWithInput {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 4px;
+  align-items: start;
+}
+
+.elementList:last-child {
+  padding-top: 84px;
+  gap: 5px;
+}
+
+.rightColumn {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 692px;
+  width: 556px;
+  background-color: var(--color-card-input);
+  border-radius: 12px;
+}
+
+.title {
+  margin-top: 35px;
+}
+
+.description {
+  margin-top: 5px;
+  color: var(--color-caption);
+}

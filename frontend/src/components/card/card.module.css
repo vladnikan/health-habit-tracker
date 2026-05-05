@@ -1,0 +1,13 @@
+.card {
+    background-color: aqua;
+    width: 100%;
+}
+
+.card h2, h3 {
+    color: white;
+}
+
+.progress__bar {
+    background-color: white;
+    height: 1px;
+}
