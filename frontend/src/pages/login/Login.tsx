@@ -49,6 +49,7 @@ export const Login = ({}: Props) => {
               text="Продолжить с google"
               iconPosition="left"
               icon={<Icon kind="google" />}
+              disabled
             />
             <Button
               kind="secondary"
@@ -56,6 +57,7 @@ export const Login = ({}: Props) => {
               text="Продолжить с Apple"
               iconPosition="left"
               icon={<Icon kind="apple" />}
+              disabled
             />
           </div>
 
@@ -102,12 +104,11 @@ export const Login = ({}: Props) => {
         <div className={styles.rightColumn}>
           <Illustration kind="light-bulb" height={300} width={300} />
           <div className={styles.title}>
-            <Text style="H2">С возвращением в SkillSwap!</Text>
+            <Text style="H2">С возвращением в HabitTracker!</Text>
           </div>
           <div className={styles.description}>
             <Text style="H4">
-              Обменивайтесь знаниями и навыками с другими <br />
-              людьми
+              Создавайте привычки вместе с нами!<br />
             </Text>
           </div> 
         </div>

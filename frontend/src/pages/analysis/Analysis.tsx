@@ -14,6 +14,10 @@ export const Analysis: React.FC = () => {
   const metrics = useAppSelector((state) => state.metrics.metrics);
   const isLoading = useAppSelector((state) => state.metrics.isLoading);
 
+  // const sleepPercent = Math.min(100, Math.round(()))
+  // const waterPercent = Math.min(100, Math.round(()))
+  // const pulsePercent = Math.min(100, Math.round(()))
+
   useEffect(() => {
     dispatch(fetchMetrics());
   }, [dispatch]);

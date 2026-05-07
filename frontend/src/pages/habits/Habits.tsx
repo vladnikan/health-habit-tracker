@@ -1,5 +1,5 @@
 // src/pages/habits/Habits.tsx
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import style from './habits.module.css'
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
@@ -27,7 +27,7 @@ export const Habits = () => {
   const isHabitDoneToday = (habitId: number): boolean => {
     const today = new Date().toISOString().split("T")[0];
     return checks.some(
-      (check: any) => check.habit_id === habitId && check.date === today
+      (check) => check.habit_id === habitId && check.date === today
     );
   };
   

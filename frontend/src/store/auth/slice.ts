@@ -59,7 +59,7 @@ const authSlice = createSlice({
 
       .addCase(authThunks.getUserData.fulfilled, (state, action) => {
         state.userData = action.payload;
-        state.token = localStorage.getItem("token"); // на всякий
+        // state.token = localStorage.getItem("token"); // на всякий
       })
 
       .addCase(authThunks.getUserData.rejected, (state) => {

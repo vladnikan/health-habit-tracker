@@ -1,5 +1,7 @@
 // auth/token.ts
 
-export const getToken = (state: any) => {
+import type { RootState } from '../store';
+
+export const getToken = (state: RootState) => {
   return state.auth.token || localStorage.getItem("token");
 };
