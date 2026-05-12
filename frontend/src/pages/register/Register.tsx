@@ -107,10 +107,9 @@ export const Register: React.FC = () => {
             onChange={handleChange}
             className={style.select}
           >
-            <option value="">Пол (необязательно)</option>
+            <option value="">Пол</option>
             <option value="male">Мужской</option>
             <option value="female">Женский</option>
-            <option value="other">Другой</option>
           </select>
 
           <div className={style.row}>

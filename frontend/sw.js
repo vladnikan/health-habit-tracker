@@ -14,35 +14,25 @@ function scheduleAll(habits) {
     if (!habit.reminder_time) return;
 
     const [hours, minutes] = habit.reminder_time.split(':').map(Number);
+
     const now = new Date();
     const target = new Date();
-
     target.setHours(hours, minutes, 0, 0);
 
-    // Если время уже прошло сегодня — ставим на завтра
     if (target <= now) {
       target.setDate(target.getDate() + 1);
     }
 
     const delay = target.getTime() - now.getTime();
 
+    // Только один setTimeout — каждый день страница перезагружается
+    // и SW получает новое расписание
     setTimeout(() => {
       self.registration.showNotification(`⏰ ${habit.name}`, {
         body: 'Не забудьте отметить привычку сегодня!',
         icon: '/favicon.ico',
-        badge: '/favicon.ico',
-        tag: `habit-${habit.id}`, // не дублирует уведомления
+        tag: `habit-${habit.id}`,
       });
-
-      // Ставим на следующий день
-      setInterval(() => {
-        self.registration.showNotification(`⏰ ${habit.name}`, {
-          body: 'Не забудьте отметить привычку сегодня!',
-          icon: '/favicon.ico',
-          tag: `habit-${habit.id}`,
-        });
-      }, 24 * 60 * 60 * 1000);
-
     }, delay);
   });
 }
