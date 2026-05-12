@@ -1,6 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react';
 import { Preloader } from './Preloader';
-import '../../styles/tokens.css';
 
 const meta: Meta<typeof Preloader> = {
   title: 'UI/Preloader',

@@ -1,4 +1,3 @@
-// src/components/cardCheck/CardCheck.tsx
 import { useState, useEffect } from "react";
 import { Icon } from "../../ui/icon";
 import { Text } from "../../ui/text";
@@ -10,10 +9,11 @@ export type CardCheckProps = {
   id: number;
   title: string;
   kind: string;
-  doneToday: boolean;           // ← важно
+  doneToday: boolean;
   currentStreak: number;
   targetValue?: number;
   unit?: string;
+  onEdit: () => void;
 };
 
 export const CardCheck: React.FC<CardCheckProps> = ({
@@ -24,13 +24,13 @@ export const CardCheck: React.FC<CardCheckProps> = ({
   currentStreak = 0,
   targetValue = 0,
   unit = "",
+  onEdit,
 }) => {
   const dispatch = useAppDispatch();
 
   const [isDoneToday, setIsDoneToday] = useState(doneToday);
   const [localStreak, setLocalStreak] = useState(currentStreak);
 
-  // Синхронизация с пропсами при обновлении из Habits
   useEffect(() => {
     setIsDoneToday(doneToday);
     setLocalStreak(currentStreak);
@@ -44,7 +44,7 @@ export const CardCheck: React.FC<CardCheckProps> = ({
     if (createHabitCheck.fulfilled.match(result)) {
       setIsDoneToday(true);
       setLocalStreak(prev => prev + 1);
-      dispatch(fetchAllChecks());        // обновляем глобальное состояние
+      dispatch(fetchAllChecks());
     }
   };
 
@@ -67,6 +67,10 @@ export const CardCheck: React.FC<CardCheckProps> = ({
 
       <div className={style.trash}>
         <Icon kind="trashcan" onClick={handleDelete} />
+      </div>
+
+      <div className={style.edit}>
+        <Icon kind="pencil" onClick={onEdit} />
       </div>
 
       <div className={style.title}>

@@ -3,6 +3,9 @@
   flex-direction: column;
   gap: 48px;
   align-items: center;
+  background: linear-gradient(220deg, rgb(0, 0, 255), rgb(0, 199, 0), rgb(37, 163, 247));
+  background-size: 300% 300%;
+  animation: move-bg 13s linear infinite;
 }
 
 .twoColumsContainer {
@@ -121,4 +124,16 @@
 .description {
   margin-top: 5px;
   color: var(--color-caption);
+}
+
+@keyframes move-bg {
+  0% {
+    background-position: 0%, 50%;
+  }
+  50% {
+    background-position: 100%, 50%;
+  }
+  100% {
+    background-position: 0%, 50%;
+  }
 }

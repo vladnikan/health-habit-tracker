@@ -1,0 +1,66 @@
+.container {
+  padding: 24px 0;
+  min-width: 420px;
+  max-width: 480px;
+}
+
+.categories {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 24px;
+}
+
+.formContainer {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.row {
+  display: flex;
+  gap: 16px;
+}
+
+.half {
+  flex: 1;
+}
+
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 32px;
+}
+
+/* Стили для select */
+select {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 8px;
+  font-size: 15px;
+  background-color: white;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+select:focus {
+  outline: none;
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+}
+
+/* Заголовки внутри формы */
+.formContainer h4 {
+  margin: 0 0 8px 0;
+  color: #374151;
+  font-weight: 500;
+}
+
+/* Адаптив */
+@media (max-width: 500px) {
+  .container {
+    min-width: 100%;
+    padding: 16px 0;
+  }
+}

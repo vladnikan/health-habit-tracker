@@ -1,8 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { getToken } from "../auth/token";
 import type { TMetric } from "./types";
-
-const BASE_URL = "http://localhost:8000";
+import { API_URL } from "../../utils/api";
 
 export const fetchMetrics = createAsyncThunk<
   TMetric[],
@@ -11,7 +10,7 @@ export const fetchMetrics = createAsyncThunk<
 >("metrics/fetchMetrics", async (_, { getState, rejectWithValue }) => {
   try {
     const token = getToken(getState());
-    const res = await fetch(`${BASE_URL}/metrics`, {
+    const res = await fetch(`${API_URL}/metrics`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (!res.ok) throw new Error("Ошибка загрузки метрик");
@@ -28,7 +27,7 @@ export const saveMetrics = createAsyncThunk<
 >("metrics/saveMetrics", async (body, { getState, rejectWithValue }) => {
   try {
     const token = getToken(getState());
-    const res = await fetch(`${BASE_URL}/metrics`, {
+    const res = await fetch(`${API_URL}/metrics`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

@@ -7,6 +7,7 @@ import {
   createHabitCheck,
   deleteHabit,
   fetchAllChecks,
+  updateHabit,
 } from "./thunks";
 
 const initialState: THabitState = {
@@ -39,10 +40,13 @@ const habitSlice = createSlice({
         state.isLoading = true;
         state.error = null;
       })
-      .addCase(fetchHabits.fulfilled, (state, action: PayloadAction<THabitData[]>) => {
-        state.isLoading = false;
-        state.habits = action.payload;
-      })
+      .addCase(
+        fetchHabits.fulfilled,
+        (state, action: PayloadAction<THabitData[]>) => {
+          state.isLoading = false;
+          state.habits = action.payload;
+        },
+      )
       .addCase(fetchHabits.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Ошибка загрузки привычек";
@@ -54,10 +58,13 @@ const habitSlice = createSlice({
       .addCase(fetchAllChecks.pending, (state) => {
         state.isLoading = true;
       })
-      .addCase(fetchAllChecks.fulfilled, (state, action: PayloadAction<THabitCheck[]>) => {
-        state.isLoading = false;
-        state.checks = action.payload;        // ← Важно!
-      })
+      .addCase(
+        fetchAllChecks.fulfilled,
+        (state, action: PayloadAction<THabitCheck[]>) => {
+          state.isLoading = false;
+          state.checks = action.payload; // ← Важно!
+        },
+      )
       .addCase(fetchAllChecks.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload || "Ошибка загрузки отметок";
@@ -66,24 +73,45 @@ const habitSlice = createSlice({
       // =====================
       // CREATE HABIT
       // =====================
-      .addCase(createHabit.fulfilled, (state, action: PayloadAction<THabitData>) => {
-        state.habits.push(action.payload);
-      })
+      .addCase(
+        createHabit.fulfilled,
+        (state, action: PayloadAction<THabitData>) => {
+          state.habits.push(action.payload);
+        },
+      )
 
       // =====================
       // CREATE CHECK
       // =====================
-      .addCase(createHabitCheck.fulfilled, (state, action: PayloadAction<THabitCheck>) => {
-        state.checks.push(action.payload);   // Добавляем новую отметку
-      })
+      .addCase(
+        createHabitCheck.fulfilled,
+        (state, action: PayloadAction<THabitCheck>) => {
+          state.checks.push(action.payload); // Добавляем новую отметку
+        },
+      )
 
       // =====================
       // DELETE HABIT
       // =====================
-      .addCase(deleteHabit.fulfilled, (state, action: PayloadAction<number>) => {
-        state.habits = state.habits.filter(h => h.id !== action.payload);
-        // Можно также почистить чеки этой привычки, но не обязательно
-      });
+      .addCase(
+        deleteHabit.fulfilled,
+        (state, action: PayloadAction<number>) => {
+          state.habits = state.habits.filter((h) => h.id !== action.payload);
+          // Можно также почистить чеки этой привычки, но не обязательно
+        },
+      )
+
+      .addCase(
+        updateHabit.fulfilled,
+        (state, action: PayloadAction<THabitData>) => {
+          const index = state.habits.findIndex(
+            (h) => h.id === action.payload.id,
+          );
+          if (index !== -1) {
+            state.habits[index] = action.payload;
+          }
+        },
+      );
   },
 });
 

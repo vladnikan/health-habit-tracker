@@ -12,6 +12,9 @@ from app.routers import auth, habits
 from app.routers.auth import get_current_user
 from app.routers import metrics
 
+from app.routers import analysis
+
+
 load_dotenv()
 
 app = FastAPI(
@@ -49,6 +52,7 @@ async def startup_event():
 app.include_router(auth.router)
 app.include_router(habits.router)
 app.include_router(metrics.router)
+app.include_router(analysis.router)
 
 @app.get("/me", response_model=dict)
 async def read_users_me(current_user: User = Depends(get_current_user)):
@@ -60,6 +64,7 @@ async def read_users_me(current_user: User = Depends(get_current_user)):
         "full_name": current_user.full_name,
         "message": "Вы успешно авторизованы через JWT токен!"
     }
+
 
 if __name__ == "__main__":
     import uvicorn

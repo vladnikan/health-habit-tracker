@@ -212,3 +212,36 @@ async def get_habit_checks(
 
     result = await db.execute(stmt)
     return result.scalars().all()
+
+# ========================
+# UPDATE HABITS
+# ========================
+
+from pydantic import BaseModel
+from typing import Optional
+
+class HabitUpdate(BaseModel):
+    name: Optional[str] = None
+    description: Optional[str] = None
+    frequency: Optional[str] = None
+    target_value: Optional[float] = None
+    unit: Optional[str] = None
+    reminder_time: Optional[str] = None
+
+@router.patch("/{habit_id}", response_model=HabitResponse)
+async def update_habit(
+    habit_id: int,
+    body: HabitUpdate,
+    current_user: User = Depends(get_current_user),
+    db: AsyncSession = Depends(get_db)
+):
+    habit = await db.get(Habit, habit_id)
+    if not habit or habit.user_id != current_user.id:
+        raise HTTPException(status_code=404, detail="Привычка не найдена")
+
+    for field, value in body.model_dump(exclude_unset=True).items():
+        setattr(habit, field, value)
+
+    await db.commit()
+    await db.refresh(habit)
+    return habit

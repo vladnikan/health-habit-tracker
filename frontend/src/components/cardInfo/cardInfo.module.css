@@ -1,0 +1,12 @@
+.card {
+    background: linear-gradient(135deg, #f1a0dc, #c4daff);
+    width: 350px;
+    height: 100%;
+    border-radius: 20px;
+    padding: 10px;
+}
+
+.upper__side {
+    display: flex;
+    justify-content: space-between;
+}

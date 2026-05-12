@@ -1,3 +1,30 @@
+.page {
+    background: linear-gradient(135deg, #fdf2fa, #c4daff);
+}
+
+.main {
+}
+
+.header {
+    color: black;
+}
+
+.habit__container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.habit__list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.habit__list:last-child {
+    margin-bottom: 20px;
+}
+
 .habits__card {
     display: flex;
 }

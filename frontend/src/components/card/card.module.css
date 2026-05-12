@@ -1,13 +1,31 @@
 .card {
-    background-color: aqua;
-    width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 300px;
+    height: 175px;
+    border-radius: 25px;
 }
 
-.card h2, h3 {
+.title__section {
+    display: flex;
+    padding: 20px 10px;
+    justify-content: space-between;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    gap: 5px;
+}
+
+.card {
     color: white;
 }
 
 .progress__bar {
     background-color: white;
-    height: 1px;
+    height: 5px;
+    border-radius: 15px;
+    width: 100%;
 }

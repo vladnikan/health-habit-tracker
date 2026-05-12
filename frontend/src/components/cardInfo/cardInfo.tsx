@@ -10,12 +10,7 @@ type CardInfoProps = {
   percent: number;
 };
 
-export const CardInfo = ({
-  icon,
-  title,
-  value,
-  percent,
-}: CardInfoProps) => {
+export const CardInfo = ({ icon, title, value, percent }: CardInfoProps) => {
   const unitsMap: Record<CardInfoProps["icon"], string> = {
     heart: "уд/мин",
     pulse: "сегодня",
@@ -61,11 +56,13 @@ export const CardInfo = ({
 
   return (
     <div className={style.card}>
-      <div className={style.icon}>
-        <Icon kind={icon} />
-      </div>
-      <div className={style.percent}>
-        <Text style="H4">{percent}%</Text>
+      <div className={style.upper__side}>
+        <div className={style.icon}>
+          <Icon kind={icon} />
+        </div>
+        <div className={style.percent}>
+          <Text style="H4">{percent}%</Text>
+        </div>
       </div>
       <div className={style.title}>
         <Text style="H3">{title}</Text>

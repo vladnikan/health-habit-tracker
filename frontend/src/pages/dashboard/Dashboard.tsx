@@ -1,5 +1,4 @@
-// src/pages/dashboard/Dashboard.tsx
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
 import { Text } from "../../ui/text";
@@ -28,7 +27,7 @@ export const Dashboard = () => {
     title: habit.name,
     count: habit.current_streak || 0,
     total: habit.target_value || 0,
-    done: false, // можно вычислять
+    done: habit.is_active,
     kind: 'fire' as const,
   }));
 
@@ -52,7 +51,6 @@ export const Dashboard = () => {
   return (
     <div className={style.page}>
       <Header />
-
       <main className={style.main}>
         <div className={style.greet}>
           <Text style="H2">Добро пожаловать! 👋</Text>
@@ -76,10 +74,12 @@ export const Dashboard = () => {
         </div>
 
         {/* Графики */}
+        <Text style="H2">Графики метрик за неделю</Text>
         {recentMetrics.length > 0 && (
           <div className={style.charts}>
+
             <div>
-              <Text style="H3">Шаги и Вода</Text>
+              <Text style="H3">Шаги</Text>
               <Graph type="line" data={progressData} xKey="name" yKey="steps" />
             </div>
 

@@ -1,25 +1,11 @@
-// src/store/habit/thunks.ts
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import type { THabitData, THabitCheck } from "./types";
+import type { THabitData, THabitCheck, CreateHabitDto, UpdateHabitDto } from "./types";
 import { getToken } from "../auth/token";
-
-const BASE_URL = "http://localhost:8000";
+import { API_URL } from "../../utils/api";
 
 // ========================
 // HABITS
 // ========================
-
-// Тип для создания привычки (обновлённый)
-type CreateHabitDto = {
-  name: string;
-  description?: string;
-  frequency: "daily" | "weekly";
-  target_value?: number;
-  unit?: string;
-  duration_type?: "indefinite" | "end_date";
-  end_date?: string;
-  reminder_time?: string;
-};
 
 export const createHabit = createAsyncThunk<
   THabitData,
@@ -35,14 +21,12 @@ export const createHabit = createAsyncThunk<
       frequency: body.frequency,
       target_value: body.target_value || null,
       unit: body.unit || null,
-      duration_type: body.duration_type || "indefinite", // бессрочно по умолчанию
+      duration_type: body.duration_type || "indefinite",
       end_date: body.end_date || null,
       reminder_time: body.reminder_time || null,
     };
 
-    console.log("🚀 Создаём привычку:", payload);
-
-    const res = await fetch(`${BASE_URL}/habits`, {
+    const res = await fetch(`${API_URL}/habits`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -56,11 +40,8 @@ export const createHabit = createAsyncThunk<
       throw new Error(errorData.detail || "Ошибка создания привычки");
     }
 
-    const data = await res.json();
-    console.log("✅ Привычка успешно создана:", data);
-    return data;
+    return await res.json();
   } catch (e: any) {
-    console.error("🔥 Ошибка создания привычки:", e);
     return rejectWithValue(e.message);
   }
 });
@@ -73,11 +54,40 @@ export const fetchHabits = createAsyncThunk<
   try {
     const token = getToken(getState());
 
-    const res = await fetch(`${BASE_URL}/habits`, {
+    const res = await fetch(`${API_URL}/habits`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 
     if (!res.ok) throw new Error("Ошибка загрузки привычек");
+
+    return await res.json();
+  } catch (e: any) {
+    return rejectWithValue(e.message);
+  }
+});
+
+export const updateHabit = createAsyncThunk<
+  THabitData,
+  UpdateHabitDto,
+  { rejectValue: string; state: any }
+>("habits/updateHabit", async (body, { rejectWithValue, getState }) => {
+  try {
+    const token = getToken(getState());
+    const { id, ...payload } = body;
+
+    const res = await fetch(`${API_URL}/habits/${id}`, {
+      method: "PATCH",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+      body: JSON.stringify(payload),
+    });
+
+    if (!res.ok) {
+      const err = await res.json().catch(() => ({}));
+      throw new Error(err.detail || "Ошибка обновления привычки");
+    }
 
     return await res.json();
   } catch (e: any) {
@@ -93,7 +103,7 @@ export const deleteHabit = createAsyncThunk<
   try {
     const token = getToken(getState());
 
-    const res = await fetch(`${BASE_URL}/habits/${id}`, {
+    const res = await fetch(`${API_URL}/habits/${id}`, {
       method: "DELETE",
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -117,7 +127,7 @@ export const fetchChecks = createAsyncThunk<
 >("habits/fetchChecks", async (habitId, { rejectWithValue, getState }) => {
   try {
     const token = getToken(getState());
-    const res = await fetch(`${BASE_URL}/habits/${habitId}/checks`, {
+    const res = await fetch(`${API_URL}/habits/${habitId}/checks`, {
       headers: { Authorization: `Bearer ${token}` },
     });
     if (!res.ok) throw new Error("Ошибка загрузки чеков");
@@ -137,15 +147,13 @@ export const createHabitCheck = createAsyncThunk<
     try {
       const token = getToken(getState());
 
-      const payload: any = { date, value };
-
-      const res = await fetch(`${BASE_URL}/habits/${habit_id}/check`, {
+      const res = await fetch(`${API_URL}/habits/${habit_id}/check`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,
         },
-        body: JSON.stringify(payload),
+        body: JSON.stringify({ date, value }),
       });
 
       if (!res.ok) {
@@ -168,7 +176,7 @@ export const fetchAllChecks = createAsyncThunk<
   try {
     const token = getToken(getState());
 
-    const res = await fetch(`${BASE_URL}/habits/checks`, {
+    const res = await fetch(`${API_URL}/habits/checks`, {
       headers: { Authorization: `Bearer ${token}` },
     });
 

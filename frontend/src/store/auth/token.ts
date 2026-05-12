@@ -1,5 +1,3 @@
-// auth/token.ts
-
 import type { RootState } from '../store';
 
 export const getToken = (state: RootState) => {

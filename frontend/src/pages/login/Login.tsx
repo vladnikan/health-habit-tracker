@@ -24,17 +24,12 @@ export const Login = ({}: Props) => {
     e.preventDefault();
     setError(null);
 
-    console.log("🔐 НАЖАТА КНОПКА ВХОДА");
-    console.log("📧 Email:", email);
-    console.log("🔑 Password:", password);
-
     const result = await dispatch(authThunks.login({ email, password }));
 
     if (authThunks.login.fulfilled.match(result)) {
       navigate('/');
     }
 
-    console.log("📤 Запрос на login отправлен");
   };
 
   return (
@@ -46,7 +41,7 @@ export const Login = ({}: Props) => {
             <Button
               kind="secondary"
               className={styles.button}
-              text="Продолжить с google"
+              text="Продолжить с Google"
               iconPosition="left"
               icon={<Icon kind="google" />}
               disabled

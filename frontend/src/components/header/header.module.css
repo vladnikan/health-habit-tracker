@@ -1,14 +1,22 @@
 .header__section {
   display: flex;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255);
   padding-left: 24px;
   width: 100%;
-  height: 4vh;
+  height: 6vh;
+  box-shadow: 0px 2px 0px black;
+}
+
+.links {
+  display: flex;
+  justify-content: space-between;
+  gap: 60px;
 }
 
 .menu {
   display: flex;
   width: 100%;
+  align-items: center;
   justify-content: space-between;
 }
 
@@ -17,17 +25,40 @@
   cursor: pointer;
 }
 
-.logo__text h3 {
-  font-size: 12px !important;
-  color: black !important;
+.logo__text {
+  font-size: 12px;
+  color: black;
 }
 
 .logo img {
   width: 26px;
 }
 
-.home, .habits, .health, .analysis {
+.redirect {
   display: flex;
   gap: 10px;
   text-decoration: none;
+  color: black;
+  width: 120px;
+  height: 40px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  transition: .3s;
 }
+
+.redirect:hover {
+  color: white;
+  background: linear-gradient(135deg, #89f7fe, #66a6ff);
+  transform: translateY(-2px);
+}
+
+.redirect:hover img {
+  fill: white;
+  stroke: white;
+}
+/* .home, .habits, .health, .analysis {
+  display: flex;
+  gap: 10px;
+  text-decoration: none;
+} */

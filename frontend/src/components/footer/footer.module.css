@@ -1,10 +1,9 @@
-.info h1, h2, h3, h4{
-    color: white;
+.info {
+    color: rgb(0, 0, 0);
 }
 
 .left__side {
     display: flex;
-    flex-direction: column;
     gap: 5px
 }
 
@@ -16,7 +15,7 @@
     display: flex;
     /* justify-content: space-between; */
     justify-content: center;
-    background-color: rgb(0, 0, 0, .5);
-    height: 150%;
+    background-color: rgba(255, 255, 255);
+    height: 5%;
     width: 100%;
 }

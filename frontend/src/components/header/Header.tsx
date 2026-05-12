@@ -17,6 +17,7 @@ export const Header: React.FC = () => {
     setTheme(theme === "light" ? "dark" : "light");
   };
 
+
   return (
     <header className={style.header__section}>
       <nav className={style.menu}>
@@ -26,22 +27,24 @@ export const Header: React.FC = () => {
             <Text style={"H3"}>Health Tracker</Text>
           </div>
         </div>
-        <Link to="/" className={style.home}>
-          <Icon kind={"home"} />
-          <Text style={"H4"}>Панель</Text>
-        </Link>
-        <Link to="/habits" className={style.habits}>
-          <Icon kind={"pulse"} />
-          <Text style={"H4"}>Привычки</Text>
-        </Link>
-        <Link to="/health" className={style.health}>
-          <Icon kind={"heart"} />
-          <Text style={"H4"}>Здоровье</Text>
-        </Link>
-        <Link to="/analysis" className={style.analysis}>
-          <Icon kind={"arrow-top"} />
-          <Text style={"H4"}>Аналитика</Text>
-        </Link>
+        <div className={style.links}>
+          <Link to="/" className={style.redirect}>
+            <Icon kind={"home"}/>
+            <Text style={"H4"}>Панель</Text>
+          </Link>
+          <Link to="/habits" className={style.redirect}>
+            <Icon kind={"pulse"} />
+            <Text style={"H4"}>Привычки</Text>
+          </Link>
+          <Link to="/health" className={style.redirect}>
+            <Icon kind={"heart"} />
+            <Text style={"H4"}>Здоровье</Text>
+          </Link>
+          <Link to="/analysis" className={style.redirect}>
+            <Icon kind={"arrow-top"} />
+            <Text style={"H4"}>Аналитика</Text>
+          </Link>
+        </div>
         <div className={style.theme}>
           <Icon
             kind={theme === "light" ? "moon" : "sun"}

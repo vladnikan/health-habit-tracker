@@ -1,4 +1,3 @@
-// src/pages/health/Health.tsx
 import React, { useState, useEffect } from "react";
 import { Header } from "../../components/header";
 import { Footer } from "../../components/footer";
@@ -8,11 +7,12 @@ import { Input } from "../../ui/input";
 import { CardInfo } from "../../components/cardInfo/cardInfo";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { fetchMetrics, saveMetrics } from "../../store/metric/thunks";
+import { DataTransfer } from "../../components/dataTransfer";
 import style from "./health.module.css";
 
 export const Health: React.FC = () => {
   const dispatch = useAppDispatch();
-  
+
   const metrics = useAppSelector((state) => state.metrics.metrics);
   const isLoading = useAppSelector((state) => state.metrics.isLoading);
 
@@ -32,7 +32,7 @@ export const Health: React.FC = () => {
   // Заполняем форму последними данными за сегодня
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
-    const todayMetric = metrics.find(m => m.date === today);
+    const todayMetric = metrics.find((m) => m.date === today);
 
     if (todayMetric) {
       setFormData({
@@ -46,30 +46,32 @@ export const Health: React.FC = () => {
   }, [metrics]);
 
   const handleChange = (key: string, value: number) => {
-    setFormData(prev => ({ ...prev, [key]: value }));
+    setFormData((prev) => ({ ...prev, [key]: value }));
   };
 
   const handleSave = async () => {
     const today = new Date().toISOString().split("T")[0];
 
-    const result = await dispatch(saveMetrics({
-      date: today,
-      sleep: formData.sleep,
-      water: formData.water,
-      steps: formData.steps,
-      heart_rate: formData.heart_rate,
-      stress: formData.stress,
-    }));
+    const result = await dispatch(
+      saveMetrics({
+        date: today,
+        sleep: formData.sleep,
+        water: formData.water,
+        steps: formData.steps,
+        heart_rate: formData.heart_rate,
+        stress: formData.stress,
+      }),
+    );
 
     if (saveMetrics.fulfilled.match(result)) {
-      alert("✅ Показатели успешно сохранены за сегодня!");
+      alert("Показатели успешно сохранены за сегодня!");
     } else {
-      alert("❌ Ошибка сохранения");
+      alert("Ошибка сохранения");
     }
   };
 
   return (
-    <>
+    <div className={style.page}>
       <Header />
 
       <div className={style.mainText}>
@@ -77,47 +79,111 @@ export const Health: React.FC = () => {
         <Text style="H4">Вводите данные ежедневно</Text>
       </div>
 
-      <main className={style.page}>
+      <main className={style.main}>
         <div className={style.metricsGrid}>
-          <CardInfo icon="moon" title="Сон" value={formData.sleep} percent={80} />
-          <CardInfo icon="water" title="Вода" value={formData.water} percent={75} />
-          <CardInfo icon="pulse" title="Шаги" value={formData.steps} percent={85} />
-          <CardInfo icon="heart" title="Пульс" value={formData.heart_rate} percent={70} />
-          <CardInfo icon="water" title="Стресс" value={formData.stress} percent={65} />
+          <CardInfo
+            icon="moon"
+            title="Сон"
+            value={formData.sleep}
+            percent={0}
+          />
+          <CardInfo
+            icon="water"
+            title="Вода"
+            value={formData.water}
+            percent={0}
+          />
+          <CardInfo
+            icon="pulse"
+            title="Шаги"
+            value={formData.steps}
+            percent={0}
+          />
+          <CardInfo
+            icon="heart"
+            title="Пульс"
+            value={formData.heart_rate}
+            percent={0}
+          />
+          <CardInfo
+            icon="water"
+            title="Стресс"
+            value={formData.stress}
+            percent={0}
+          />
         </div>
 
         <div className={style.formGrid}>
           <div>
             <Text style="H4">Сон (часы)</Text>
-            <Input type="number" step="0.5" placeholder="7.5" value={formData.sleep} onChange={(e) => handleChange("sleep", parseFloat(e.target.value) || 0)} />
+            <Input
+              type="number"
+              step="0.5"
+              placeholder="7.5"
+              value={formData.sleep}
+              onChange={(e) =>
+                handleChange("sleep", parseFloat(e.target.value) || 0)
+              }
+            />
           </div>
           <div>
             <Text style="H4">Вода (литры)</Text>
-            <Input type="number" step="0.1" placeholder="2.0" value={formData.water} onChange={(e) => handleChange("water", parseFloat(e.target.value) || 0)} />
+            <Input
+              type="number"
+              step="0.1"
+              placeholder="2.0"
+              value={formData.water}
+              onChange={(e) =>
+                handleChange("water", parseFloat(e.target.value) || 0)
+              }
+            />
           </div>
           <div>
             <Text style="H4">Шаги</Text>
-            <Input type="number" placeholder="8000" value={formData.steps} onChange={(e) => handleChange("steps", parseInt(e.target.value) || 0)} />
+            <Input
+              type="number"
+              placeholder="8000"
+              value={formData.steps}
+              onChange={(e) =>
+                handleChange("steps", parseInt(e.target.value) || 0)
+              }
+            />
           </div>
           <div>
             <Text style="H4">Пульс (уд/мин)</Text>
-            <Input type="number" placeholder="72" value={formData.heart_rate} onChange={(e) => handleChange("heart_rate", parseInt(e.target.value) || 0)} />
+            <Input
+              type="number"
+              placeholder="72"
+              value={formData.heart_rate}
+              onChange={(e) =>
+                handleChange("heart_rate", parseInt(e.target.value) || 0)
+              }
+            />
           </div>
           <div>
             <Text style="H4">Стресс (0-100)</Text>
-            <Input type="number" placeholder="40" value={formData.stress} onChange={(e) => handleChange("stress", parseInt(e.target.value) || 0)} />
+            <Input
+              type="number"
+              placeholder="40"
+              value={formData.stress}
+              onChange={(e) =>
+                handleChange("stress", parseInt(e.target.value) || 0)
+              }
+            />
           </div>
         </div>
 
-        <Button 
-          kind="primary" 
-          text="Сохранить показатели за сегодня" 
+        <Button
+          kind="primary"
+          text="Сохранить показатели за сегодня"
           onClick={handleSave}
           disabled={isLoading}
         />
       </main>
-
+      <section style={{ padding: "0 20px 40px" }}>
+        <DataTransfer />
+      </section>
       <Footer />
-    </>
+    </div>
   );
 };

@@ -10,6 +10,7 @@ import { Login } from "./pages/login/Login";
 import { Analysis } from "./pages/analysis/Analysis";
 import { Health } from "./pages/health/Health";
 import { ProtectedRoute } from "./components/protectedRoute/Protectedroute";
+import { NotFound } from "./pages/notFound/NotFound";
 
 function App() {
   const dispatch = useAppDispatch();
@@ -26,6 +27,7 @@ function App() {
       <Route path="/habits" element={<ProtectedRoute element={<Habits />} />} />
       <Route path="/analysis" element={<ProtectedRoute element={<Analysis/>} />}/>
       <Route path="/health" element={<ProtectedRoute element={<Health/>}/>}/>
+      <Route path="*" element = {<ProtectedRoute element={<NotFound/>}/>}/>
     </Routes>
   );
 }

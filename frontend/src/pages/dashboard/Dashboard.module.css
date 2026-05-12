@@ -1,8 +1,9 @@
 .page {
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
-  background-color: #f8f6ff;
+  width: 100%;
+  background: linear-gradient(135deg, #fdf2fa, #c4daff);
+  /* background-color: #f8f6ff; */
 }
 
 .main {
@@ -12,8 +13,8 @@
 
 .grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 25px
 }
 
 .greet {
@@ -32,7 +33,5 @@
   grid-template-columns: repeat(2, 1fr);
   gap: 24px;
   margin-top: 40px;
-
-  background-color: white;
   border-radius: 20px;
 }
