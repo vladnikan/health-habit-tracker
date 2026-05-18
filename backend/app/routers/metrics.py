@@ -7,6 +7,7 @@ from app.models.metric import HealthMetric
 from app.schemas.metric import HealthMetricCreate, HealthMetricResponse
 from app.routers.auth import get_current_user
 from datetime import date
+from app.utils.health_norms import calculate_norms
 
 router = APIRouter(prefix="/metrics", tags=["metrics"])
 
@@ -61,6 +62,14 @@ async def save_metrics(
         await db.commit()
         await db.refresh(new_metric)
         return new_metric
+    
+from app.utils.health_norms import calculate_norms
+
+@router.get("/norms")
+async def get_norms(
+    current_user: User = Depends(get_current_user)
+):
+    return calculate_norms(current_user)
     
 from fastapi import UploadFile, File
 import json

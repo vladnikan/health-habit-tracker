@@ -20,6 +20,24 @@ export const fetchMetrics = createAsyncThunk<
   }
 });
 
+export const fetchNorms = createAsyncThunk<
+  any,
+  void,
+  { state: any; rejectValue: string }
+>("metrics/fetchNorms", async (_, { getState, rejectWithValue }) => {
+  try {
+    const token = getToken(getState());
+    const res = await fetch(`${API_URL}/metrics/norms`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+
+    if (!res.ok) throw new Error("Ошибка загрузки норм");
+    return await res.json();
+  } catch (e: any) {
+    return rejectWithValue(e.message);
+  }
+});
+
 export const saveMetrics = createAsyncThunk<
   TMetric,
   Partial<TMetric>,
@@ -40,4 +58,6 @@ export const saveMetrics = createAsyncThunk<
   } catch (e: any) {
     return rejectWithValue(e.message);
   }
+
+  
 });

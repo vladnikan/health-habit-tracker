@@ -2,14 +2,14 @@ import { configureStore } from '@reduxjs/toolkit';
 import { authReducer } from './auth/slice';
 import { habitReducer } from './habit/slice';
 import { metricsReducer } from './metric/slice';
-// Импортируй другие редьюсеры позже, например:
-// import { habitsReducer } from './habits/slice';
+import { goalReducer } from './goal/slice';
 
 export const store = configureStore({
   reducer: {
     auth: authReducer,
     habits: habitReducer,
     metrics: metricsReducer,
+    goals: goalReducer,
   },
   // middleware: (getDefaultMiddleware) =>
   //   getDefaultMiddleware().concat(api.middleware), // пока закомментировано, если RTK Query не используешь

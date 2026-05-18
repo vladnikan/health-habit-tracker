@@ -1,9 +1,11 @@
+// src/store/metric/slice.ts
 import { createSlice } from "@reduxjs/toolkit";
-import { fetchMetrics, saveMetrics } from "./thunks";
+import { fetchMetrics, saveMetrics, fetchNorms } from "./thunks";
 import type { TMetricsState } from "./types";
 
 const initialState: TMetricsState = {
   metrics: [],
+  norms: null,
   isLoading: false,
   error: null,
 };
@@ -14,7 +16,7 @@ const metricsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-
+      // Метрики
       .addCase(fetchMetrics.pending, (state) => {
         state.isLoading = true;
       })
@@ -22,9 +24,21 @@ const metricsSlice = createSlice({
         state.isLoading = false;
         state.metrics = action.payload;
       })
+      .addCase(fetchMetrics.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload || "Ошибка загрузки метрик";
+      })
 
+      // Нормы
+      .addCase(fetchNorms.fulfilled, (state, action) => {
+        state.norms = action.payload;
+      })
+      .addCase(fetchNorms.rejected, (state) => {
+        state.norms = null;
+      })
+
+      // Сохранение
       .addCase(saveMetrics.fulfilled, (state, action) => {
-        // заменяем запись за сегодня
         const index = state.metrics.findIndex(
           (m) => m.date === action.payload.date
         );

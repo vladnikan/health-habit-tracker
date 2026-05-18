@@ -12,4 +12,5 @@ export type TMetricsState = {
   metrics: TMetric[];
   isLoading: boolean;
   error: string | null;
+  norms: any | null; 
 };

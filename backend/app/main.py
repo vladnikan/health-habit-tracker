@@ -13,6 +13,7 @@ from app.routers.auth import get_current_user
 from app.routers import metrics
 
 from app.routers import analysis
+from app.routers import goals
 
 
 load_dotenv()
@@ -53,6 +54,7 @@ app.include_router(auth.router)
 app.include_router(habits.router)
 app.include_router(metrics.router)
 app.include_router(analysis.router)
+app.include_router(goals.router)
 
 @app.get("/me", response_model=dict)
 async def read_users_me(current_user: User = Depends(get_current_user)):

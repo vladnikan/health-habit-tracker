@@ -23,3 +23,5 @@ class User(Base):
 
     habits = relationship("Habit", back_populates="user", cascade="all, delete-orphan")
     metrics = relationship("HealthMetric", back_populates="user", cascade="all, delete-orphan")
+    goals = relationship("UserGoal", back_populates="user", cascade="all, delete-orphan")
+    notifications = relationship("NotificationLog", back_populates="user", cascade="all, delete-orphan")

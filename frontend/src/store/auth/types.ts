@@ -8,8 +8,9 @@ export type TAuthState = {
 
 export type TUserData = {
   id: string;
-  name: string;
+  username: string;
   email: string;
+  full_name: string | null;
 };
 
 export type TAuthResponse = {

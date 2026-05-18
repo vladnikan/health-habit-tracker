@@ -3,7 +3,7 @@ import { Text } from "../../ui/text";
 import style from "./cardInfo.module.css";
 
 type CardInfoProps = {
-  icon: "heart" | "pulse" | "water" | "moon" | "food" | "lightning";
+  icon: "heart" | "pulse" | "water" | "moon" | "food" | "lightning"|"stress";
   title: string;
   value: number;
   overall?: string;
@@ -18,6 +18,7 @@ export const CardInfo = ({ icon, title, value, percent }: CardInfoProps) => {
     food: "ккал",
     moon: "часов",
     lightning: "%",
+    stress: ''
   };
 
   const getResult = () => {
