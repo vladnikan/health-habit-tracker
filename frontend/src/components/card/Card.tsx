@@ -9,11 +9,12 @@ export type CardProps = {
   total: number;
   done: boolean;
   kind: "done" | "pulse" | "arrow-top" | "fire";
+  endDate?: string | null;
 };
 
 export const Card = ({ title, count, total, done, kind }: CardProps) => {
   const percent =
-    total === 0 ? 0 : Math.min(100, Math.round((count / total) * 100));
+    total === 0 ? 100 : Math.min(100, Math.round((count / total) * 100));
   const gradients = [
     "linear-gradient(135deg, #ff9a9e, #fad0c4)",
     "linear-gradient(135deg, #a18cd1, #fbc2eb)",
@@ -70,7 +71,7 @@ export const Card = ({ title, count, total, done, kind }: CardProps) => {
       <div className={style.content}>
         <div className={style.count}>
           <Text style={"H2"}>
-            {total ? `${count}/${total}` : "Сегодня выполнено!"}
+            {total ? `${count}/${total} дней` : "Сегодня выполнено!"}
           </Text>
         </div>
         <div className={style.progress__bar}>

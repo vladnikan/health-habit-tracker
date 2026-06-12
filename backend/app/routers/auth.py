@@ -7,7 +7,7 @@ from sqlalchemy import select
 from app.core.database import get_db
 from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse
-from app.utils.security import get_password_hash, verify_password, create_access_token   # ← здесь должны быть все три
+from app.utils.security import get_password_hash, verify_password, create_access_token
 from fastapi.security import OAuth2PasswordBearer
 from app.core.config import SECRET_KEY, ALGORITHM
 
@@ -20,7 +20,6 @@ router = APIRouter(
 
 @router.post("/register", response_model=UserResponse)
 async def register(user: UserCreate, db: AsyncSession = Depends(get_db)):
-    # Проверка существования
     stmt = select(User).where((User.email == user.email) | (User.username == user.username))
     result = await db.execute(stmt)
     if result.scalar_one_or_none():
@@ -46,7 +45,6 @@ async def register(user: UserCreate, db: AsyncSession = Depends(get_db)):
 
 @router.post("/login")
 async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)):
-    # Ищем пользователя по email
     stmt = select(User).where(User.email == form_data.username)
     result = await db.execute(stmt)
     user = result.scalar_one_or_none()
@@ -58,7 +56,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # Создаём JWT токен
     access_token = create_access_token(
         data={"sub": user.email, "user_id": user.id}
     )
@@ -73,8 +70,6 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
             "full_name": user.full_name
         }
     }
-
-# В конец файла app/routers/auth.py добавь это:
 
 from fastapi import Depends
 from jose import JWTError, jwt

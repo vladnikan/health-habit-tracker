@@ -76,7 +76,8 @@ type TIcon = {
     | 'food'
     | 'lightning'
     | 'pencil'
-    | 'stress';
+    | 'stress'
+    | 'bell';
 };
 
 export const Icon: FC<TIcon> = ({ kind, size = 24, onClick }) => {

@@ -13,9 +13,9 @@ class User(Base):
     hashed_password = Column(String, nullable=False)
     full_name = Column(String, nullable=True)
     
-    gender = Column(String(10), nullable=True)      # male / female / other
-    height = Column(Float, nullable=True)           # см
-    weight = Column(Float, nullable=True)           # кг
+    gender = Column(String(10), nullable=True)
+    height = Column(Float, nullable=True)
+    weight = Column(Float, nullable=True)
     birth_date = Column(Date, nullable=True)
 
     is_active = Column(Boolean, default=True)

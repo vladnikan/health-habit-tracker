@@ -1,4 +1,3 @@
-# backend/app/utils/security.py
 from datetime import datetime, timedelta
 from jose import jwt
 import bcrypt
@@ -10,16 +9,14 @@ load_dotenv()
 
 SECRET_KEY = os.getenv("SECRET_KEY")
 ALGORITHM = os.getenv("ALGORITHM", "HS256")
-ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 1440))
+ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("ACCESS_TOKEN_EXPIRE_MINUTES", 1))
 
 def get_password_hash(password: str) -> str:
-    """Хэширует пароль с помощью bcrypt"""
     salt = bcrypt.gensalt(rounds=12)
     hashed = bcrypt.hashpw(password.encode('utf-8'), salt)
     return hashed.decode('utf-8')
 
 def verify_password(plain_password: str, hashed_password: str) -> bool:
-    """Проверяет пароль"""
     try:
         return bcrypt.checkpw(
             plain_password.encode('utf-8'), 

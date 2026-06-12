@@ -19,7 +19,7 @@ class Habit(Base):
     unit = Column(String(30), nullable=True)
     duration_type = Column(String(20), default="indefinite")
     end_date = Column(Date, nullable=True)
-    reminder_time = Column(String(10), nullable=True)   # увеличил до 10 на всякий
+    reminder_time = Column(String(10), nullable=True)
 
     is_active = Column(Boolean, default=True)
     created_at = Column(DateTime(timezone=True), server_default=func.now())
@@ -54,7 +54,6 @@ class HabitCheck(Base):
 
     habit = relationship("Habit", back_populates="checks")
 
-    # Уникальность: одна отметка на привычку в день
     __table_args__ = (
         UniqueConstraint('habit_id', 'date', name='uq_habit_check_date'),
     )

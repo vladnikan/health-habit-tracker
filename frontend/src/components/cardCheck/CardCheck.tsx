@@ -1,9 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { Icon } from "../../ui/icon";
 import { Text } from "../../ui/text";
 import style from "./cardCheck.module.css";
 import { useAppDispatch } from "../../hooks/hooks";
-import { createHabitCheck, deleteHabit, fetchAllChecks } from "../../store/habit/thunks";
+import {
+  createHabitCheck,
+  deleteHabit,
+  fetchAllChecks,
+} from "../../store/habit/thunks";
 
 export type CardCheckProps = {
   id: number;
@@ -14,6 +18,8 @@ export type CardCheckProps = {
   targetValue?: number;
   unit?: string;
   onEdit: () => void;
+  createdAt: string;
+  endDate?: string | null;
 };
 
 export const CardCheck: React.FC<CardCheckProps> = ({
@@ -25,6 +31,8 @@ export const CardCheck: React.FC<CardCheckProps> = ({
   targetValue = 0,
   unit = "",
   onEdit,
+  createdAt,
+  endDate,
 }) => {
   const dispatch = useAppDispatch();
 
@@ -43,7 +51,7 @@ export const CardCheck: React.FC<CardCheckProps> = ({
 
     if (createHabitCheck.fulfilled.match(result)) {
       setIsDoneToday(true);
-      setLocalStreak(prev => prev + 1);
+      setLocalStreak((prev) => prev + 1);
       dispatch(fetchAllChecks());
     }
   };
@@ -55,6 +63,15 @@ export const CardCheck: React.FC<CardCheckProps> = ({
   };
 
   const percent = targetValue > 0 ? (isDoneToday ? 100 : 0) : 0;
+
+  const totalDays = useMemo(() => {
+    const start = new Date(createdAt);
+    const end = endDate ? new Date(endDate) : new Date();
+    const diff = Math.ceil(
+      (end.getTime() - start.getTime()) / (1000 * 60 * 60 * 24),
+    );
+    return Math.max(diff, 1);
+  }, [createdAt, endDate]);
 
   return (
     <div className={style.card}>
@@ -86,21 +103,25 @@ export const CardCheck: React.FC<CardCheckProps> = ({
         <Text style="H4">{localStreak} дней подряд</Text>
       </div>
 
-      {targetValue > 0 ? (
-        <div className={style.target}>
-          <Text style="H4">Цель: {targetValue} {unit || "в день"}</Text>
-          <div className={style.progress}>
-            <div className={style.progressFill} style={{ width: `${percent}%` }} />
-          </div>
-          <Text style="H4">
-            {isDoneToday ? "100% — выполнено сегодня" : "0% — не выполнено"}
-          </Text>
+      <div className={style.target}>
+        <Text style="H4">
+          {endDate
+            ? `До ${new Date(endDate).toLocaleDateString("ru-RU")}`
+            : "Бессрочно"}
+          {targetValue > 0 && unit && ` · Цель: ${targetValue} ${unit}`}
+        </Text>
+        <div className={style.progress}>
+          <div
+            className={style.progressFill}
+            style={{
+              width: `${Math.min(100, Math.round((localStreak / totalDays) * 100))}%`,
+            }}
+          />
         </div>
-      ) : (
-        <div className={style.target}>
-          <Text style="H4">Бессрочно</Text>
-        </div>
-      )}
+        <Text style="H4">
+          {localStreak} / {totalDays} дней
+        </Text>
+      </div>
 
       {isDoneToday && (
         <div className={style.todayDone}>

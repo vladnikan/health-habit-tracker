@@ -1,7 +1,4 @@
-// src/pages/analysis/Analysis.tsx
 import React, { useEffect, useState } from "react";
-import { Header } from "../../components/header";
-import { Footer } from "../../components/footer";
 import { Text } from "../../ui/text";
 import { useAppSelector } from "../../hooks/hooks";
 import {
@@ -164,8 +161,6 @@ function AiInsight({ data }: { data: AnalysisData }) {
   );
 }
 
-// ─── Главный компонент ────────────────────────────────────────────────────────
-
 export const Analysis: React.FC = () => {
   const token =
     useAppSelector((s) => s.auth.token) || localStorage.getItem("token");
@@ -193,21 +188,17 @@ export const Analysis: React.FC = () => {
   if (loading)
     return (
       <>
-        <Header />
         <main className={style.page}>
           <Text style="H4">Загружаем анализ...</Text>
         </main>
-        <Footer />
       </>
     );
   if (error)
     return (
       <>
-        <Header />
         <main className={style.page}>
           <Text style="H4">Ошибка: {error}</Text>
         </main>
-        <Footer />
       </>
     );
   if (!data) return null;
@@ -231,7 +222,6 @@ export const Analysis: React.FC = () => {
 
   return (
     <>
-      <Header />
       <main className={style.page}>
         {/* Заголовок */}
         <div className={style.hero}>
@@ -286,7 +276,7 @@ export const Analysis: React.FC = () => {
             </div>
 
             <div className={style.daysBlock}>
-              <Text style="H3">Экстремальные дни</Text>
+              <Text style="H3">Лучший/худший день</Text>
               {data.best_day && (
                 <div className={`${style.dayCard} ${style.best}`}>
                   <div className={style.dayEmoji}>🏆</div>
@@ -399,7 +389,6 @@ export const Analysis: React.FC = () => {
           <AiInsight data={data} />
         </section>
       </main>
-      <Footer />
     </>
   );
 };

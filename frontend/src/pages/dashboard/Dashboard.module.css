@@ -2,36 +2,73 @@
   display: flex;
   flex-direction: column;
   width: 100%;
-  background: linear-gradient(135deg, #fdf2fa, #c4daff);
-  /* background-color: #f8f6ff; */
+  min-height: 100vh;
+  position: relative;
+  overflow: hidden;
+
+  background: linear-gradient(135deg, #f8fafd 0%, #f0f4ff 100%);
+}
+
+/* мягкий общий glow фон */
+.page {
+  position: relative;
+  overflow: hidden;
+  background: linear-gradient(135deg, #f8fafd 0%, #f0f4ff 100%);
+}
+
+/* контейнер для линии */
+.page::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg width='600' height='200' viewBox='0 0 600 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 100 L50 100 L70 60 L90 140 L110 100 L160 100 L180 80 L200 120 L220 100 L600 100' stroke='%234f75ff' stroke-width='2' fill='none' opacity='0.15'/%3E%3C/svg%3E");
+  background-repeat: repeat-x;
+  background-size: 400px 200px;
+  animation: moveLine 6s linear infinite;
+  opacity: 0.4;
+  pointer-events: none;
+  z-index: 0;
+}
+
+@keyframes moveLine {
+  0% {
+    background-position-x: 0;
+  }
+  100% {
+    background-position-x: 400px;
+  }
 }
 
 .main {
-  flex: 1;
-  padding: 24px;
+  position: relative;
+  z-index: 1;
 }
 
+/* сетка карточек */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-  gap: 25px
+  gap: 24px;
 }
 
+/* приветствие */
 .greet {
+  color: black;
   display: flex;
   flex-direction: column;
-  align-items: start;
-  margin-bottom: 30px;
+  align-items: flex-start;
+  margin-bottom: 32px;
 }
 
-.greet h2, .greet h4 {
+.graphic__name {
   color: black;
+  margin-top: 60px;
 }
 
+/* графики */
 .charts {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
   gap: 24px;
   margin-top: 40px;
-  border-radius: 20px;
 }

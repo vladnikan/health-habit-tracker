@@ -26,14 +26,13 @@ async def save_metrics(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    # Приводим дату к объекту date
+    
     if isinstance(metric.date, str):
         from datetime import datetime
         metric_date = datetime.strptime(metric.date, "%Y-%m-%d").date()
     else:
         metric_date = metric.date or date.today()
 
-    # Запрос
     stmt = select(HealthMetric).where(
         HealthMetric.user_id == current_user.id,
         HealthMetric.date == metric_date
@@ -43,7 +42,6 @@ async def save_metrics(
     existing = result.scalar_one_or_none()
 
     if existing:
-        # Обновляем
         update_data = metric.model_dump(exclude_unset=True, exclude={"date"})
         for field, value in update_data.items():
             if value is not None:
@@ -52,7 +50,6 @@ async def save_metrics(
         await db.refresh(existing)
         return existing
     else:
-        # Создаём новую
         new_metric = HealthMetric(
             user_id=current_user.id,
             date=metric_date,
@@ -119,14 +116,12 @@ async def import_metrics(
             if "step_count" in dtype:
                 steps = value.get("intVal")
             elif "sleep" in dtype:
-                # sleep в минутах → часы
                 sleep_min = value.get("intVal", 0)
                 sleep = round(sleep_min / 60, 1) if sleep_min else None
 
         if steps is None and sleep is None:
             continue
 
-        # Проверяем существующую запись
         stmt = select(HealthMetric).where(
             HealthMetric.user_id == current_user.id,
             HealthMetric.date == metric_date
@@ -168,7 +163,6 @@ async def export_csv(
     output = io.StringIO()
     writer = csv.writer(output)
     
-    # Заголовок
     writer.writerow(["Дата", "Сон (ч)", "Вода (л)", "Шаги", "Пульс", "Стресс"])
     
     for m in metrics:

@@ -1,4 +1,3 @@
-# backend/app/routers/analysis.py
 from fastapi import APIRouter, Depends
 from sqlalchemy.ext.asyncio import AsyncSession
 from sqlalchemy import select
@@ -17,7 +16,6 @@ router = APIRouter(prefix="/analysis", tags=["analysis"])
 
 
 def calc_trend(values: list[float]) -> str:
-    """Простой линейный тренд по последним значениям"""
     if len(values) < 3:
         return "недостаточно данных"
     first_half = sum(values[:len(values)//2]) / (len(values)//2)
@@ -31,7 +29,6 @@ def calc_trend(values: list[float]) -> str:
 
 
 def pearson_correlation(x: list[float], y: list[float]) -> Optional[float]:
-    """Корреляция Пирсона между двумя списками"""
     n = len(x)
     if n < 3:
         return None
@@ -50,7 +47,6 @@ async def get_analysis(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    # Последние 30 дней метрик
     since = date.today() - timedelta(days=30)
     stmt = select(HealthMetric).where(
         HealthMetric.user_id == current_user.id,
@@ -59,7 +55,6 @@ async def get_analysis(
     result = await db.execute(stmt)
     metrics = result.scalars().all()
 
-    # Привычки и чеки за 30 дней
     habits_stmt = select(Habit).where(Habit.user_id == current_user.id)
     habits = (await db.execute(habits_stmt)).scalars().all()
 
@@ -69,7 +64,6 @@ async def get_analysis(
     )
     checks = (await db.execute(checks_stmt)).scalars().all()
 
-    # Средние значения
     def avg(field):
         vals = [getattr(m, field) for m in metrics if getattr(m, field) is not None]
         return round(sum(vals) / len(vals), 1) if vals else None
@@ -127,7 +121,6 @@ async def get_analysis(
     best_day = max(scored, key=lambda x: x[1]) if scored else None
     worst_day = min(scored, key=lambda x: x[1]) if scored else None
 
-    # Выполнение привычек за 30 дней
     habit_completion = []
     for habit in habits:
         habit_checks = [c for c in checks if c.habit_id == habit.id]
@@ -139,7 +132,6 @@ async def get_analysis(
             "current_streak": habit.current_streak,
         })
 
-    # Рекомендации по правилам
     recommendations = []
 
     if averages["sleep"] and averages["sleep"] < 6:
@@ -214,7 +206,6 @@ async def ai_insight(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    # Получаем данные анализа для этого пользователя
     analysis = await get_analysis(current_user=current_user, db=db)
     
     prompt = f"""Ты — персональный health-аналитик. Проанализируй данные пользователя за последние {analysis['period_days']} дней.

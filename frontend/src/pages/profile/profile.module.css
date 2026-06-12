@@ -1,0 +1,84 @@
+.page {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 24px 20px 60px;
+}
+
+.section {
+  margin-bottom: 48px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+/* Информация о пользователе */
+.userInfo {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 24px;
+  background: var(--color-background-secondary, #f7f7f7);
+  border-radius: 16px;
+  border: 1px solid var(--color-border-tertiary, #e0e0e0);
+}
+
+.avatar {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #6c63ff;
+  color: white;
+  font-size: 28px;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* Сетка целей */
+.goalsGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+  gap: 16px;
+}
+
+.goalCard {
+  background: var(--color-background-secondary, #f7f7f7);
+  border: 1px solid var(--color-border-tertiary, #e0e0e0);
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.goalLabel {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.unit {
+  font-size: 12px;
+  color: var(--color-text-secondary, #888);
+}
+
+.hint {
+  font-size: 12px;
+  color: var(--color-text-secondary, #888);
+  line-height: 1.4;
+}
+
+/* Кнопка сохранения */
+.saveRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 8px;
+}
+
+.savedMsg {
+  font-size: 14px;
+  color: #27ae60;
+}

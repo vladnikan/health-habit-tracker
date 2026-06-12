@@ -4,7 +4,7 @@ from datetime import date, datetime
 
 
 class HealthMetricCreate(BaseModel):
-    date: Optional[str] = None          # принимаем как строку
+    date: Optional[str] = None
     sleep: Optional[float] = None
     water: Optional[float] = None
     steps: Optional[int] = None

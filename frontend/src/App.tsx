@@ -11,6 +11,9 @@ import { Analysis } from "./pages/analysis/Analysis";
 import { Health } from "./pages/health/Health";
 import { ProtectedRoute } from "./components/protectedRoute/Protectedroute";
 import { NotFound } from "./pages/notFound/NotFound";
+import { Profile } from "./pages/profile/Profile";
+import { Layout } from "./components/layout/Layout";
+
 
 function App() {
   const dispatch = useAppDispatch();
@@ -21,12 +24,16 @@ function App() {
 
   return (
     <Routes>
-      <Route path="/" element={<ProtectedRoute element={<Dashboard />} />}/>
+      <Route element={<Layout/>}>
+        <Route path="/" element={<ProtectedRoute element={<Dashboard />} />}/>
+        <Route path="/habits" element={<ProtectedRoute element={<Habits />} />} />
+        <Route path="/analysis" element={<ProtectedRoute element={<Analysis/>} />}/>
+        <Route path="/health" element={<ProtectedRoute element={<Health/>}/>}/>
+        <Route path="/profile" element={<ProtectedRoute element={<Profile/>}/>}/>
+      </Route>
+
       <Route path="/register" element={<ProtectedRoute onlyUnAuth element={<Register />} />} />
       <Route path="/login" element={<ProtectedRoute onlyUnAuth element = {<Login />} />} />
-      <Route path="/habits" element={<ProtectedRoute element={<Habits />} />} />
-      <Route path="/analysis" element={<ProtectedRoute element={<Analysis/>} />}/>
-      <Route path="/health" element={<ProtectedRoute element={<Health/>}/>}/>
       <Route path="*" element = {<ProtectedRoute element={<NotFound/>}/>}/>
     </Routes>
   );
