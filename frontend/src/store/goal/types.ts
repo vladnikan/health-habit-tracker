@@ -1,7 +1,7 @@
 export type TGoal = {
   id: number;
   user_id: number;
-  metric_type: string;  // ← было metric
+  metric_type: string;
   target_value: number;
   created_at: string;
 };

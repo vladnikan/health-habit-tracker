@@ -13,7 +13,6 @@ export const DataTransfer = () => {
   const [importStatus, setImportStatus] = useState<string | null>(null);
   const [importing, setImporting] = useState(false);
 
-  // ── Импорт ──────────────────────────────────────────────
   const handleImport = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -36,17 +35,15 @@ export const DataTransfer = () => {
       if (!res.ok) throw new Error(data.detail || "Ошибка импорта");
 
       setImportStatus(`✅ Импортировано ${data.imported} записей`);
-      dispatch(fetchMetrics()); // обновляем метрики в сторе
+      dispatch(fetchMetrics());
     } catch (err: any) {
       setImportStatus(`❌ ${err.message}`);
     } finally {
       setImporting(false);
-      // сбрасываем input чтобы можно было загрузить тот же файл повторно
       if (fileRef.current) fileRef.current.value = "";
     }
   };
 
-  // ── Экспорт ─────────────────────────────────────────────
   const handleExport = async (format: "csv" | "json") => {
     const res = await fetch(`${API_URL}/metrics/export/${format}`, {
       headers: { Authorization: `Bearer ${token}` },
@@ -54,7 +51,6 @@ export const DataTransfer = () => {
 
     if (!res.ok) return;
 
-    // Создаём ссылку и кликаем — браузер скачивает файл
     const blob = await res.blob();
     const url = URL.createObjectURL(blob);
     const a = document.createElement("a");
@@ -67,7 +63,6 @@ export const DataTransfer = () => {
   return (
     <div className={style.wrapper}>
 
-      {/* Импорт */}
       <div className={style.block}>
         <Text style="H3">📥 Импорт из Google Fit</Text>
         <Text style="H4">
@@ -96,7 +91,6 @@ export const DataTransfer = () => {
         )}
       </div>
 
-      {/* Экспорт */}
       <div className={style.block}>
         <Text style="H3">📤 Экспорт моих данных</Text>
         <Text style="H4">Скачайте все ваши метрики здоровья</Text>

@@ -17,15 +17,7 @@ export const Dashboard = () => {
     dispatch(fetchHabits());
     dispatch(fetchMetrics());
   }, [dispatch]);
-
-  // const cards = habits.map((habit) => ({
-  //   id: habit.id,
-  //   title: habit.name,
-  //   count: habit.current_streak || 0,
-  //   total: habit.target_value || 0,
-  //   done: habit.is_active,
-  //   kind: 'fire' as const,
-  // }));
+  
   const cards = habits.map((habit) => ({
     id: habit.id,
     title: habit.name,

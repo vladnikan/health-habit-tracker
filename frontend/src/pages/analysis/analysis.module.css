@@ -2,22 +2,26 @@
   max-width: 1100px;
   margin: 0 auto;
   padding: 24px 20px 60px;
+  color: var(--color-text-primary);
 }
 
 .hero {
   margin-bottom: 36px;
 }
 
+.hero h2, .hero h3, .hero h4 {
+  color: var(--color-text-primary);
+}
+
 .section {
   margin-bottom: 48px;
 }
 
-.section h3,
-.section h4 {
-  margin-bottom: 16px;
+.section h2, .section h3, .section h4 {
+  color: var(--color-text-primary);
+  margin-bottom: 12px;
 }
 
-/* ── Средние показатели ── */
 .statsGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
@@ -26,29 +30,31 @@
 }
 
 .statCard {
-  background: var(--color-background-secondary, #f7f7f7);
-  border-radius: 12px;
+  background: var(--color-card-input);
+  border-radius: 14px;
   padding: 20px 16px;
   text-align: center;
-  border: 1px solid var(--color-border-tertiary, #e0e0e0);
+  border: 1px solid var(--color-border-tertiary);
+  box-shadow: 0 2px 12px rgba(37, 122, 116, 0.08);
 }
 
 .statLabel {
   font-size: 13px;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text-secondary);
   margin-bottom: 8px;
+  font-weight: 500;
 }
 
 .statValue {
   font-size: 28px;
-  font-weight: 600;
-  color: var(--color-text-primary, #111);
+  font-weight: 700;
+  color: var(--color-text-primary);
   margin-bottom: 4px;
 }
 
 .statTrend {
   font-size: 12px;
-  color: var(--color-text-secondary, #888);
+  color: var(--color-caption);
 }
 
 /* ── Два столбца ── */
@@ -63,7 +69,6 @@
   .twoCol { grid-template-columns: 1fr; }
 }
 
-/* ── Лучший/худший день ── */
 .daysBlock {
   display: flex;
   flex-direction: column;
@@ -76,19 +81,18 @@
   align-items: center;
   gap: 16px;
   padding: 20px;
-  border-radius: 12px;
-  border: 1px solid var(--color-border-tertiary, #e0e0e0);
+  border-radius: 14px;
+  border: 1px solid;
 }
 
-.best { background: #f0fff4; border-color: #c6f6d5; }
-.worst { background: #fff5f5; border-color: #fed7d7; }
+.best  { background: #f0faf8; border-color: var(--color-green-light); }
+.worst { background: #fff8f0; border-color: #f4b860; }
 
 .dayEmoji { font-size: 32px; }
-.dayTitle { font-size: 13px; color: #666; }
-.dayDate { font-size: 18px; font-weight: 600; }
-.dayScore { font-size: 13px; color: #888; }
+.dayTitle { font-size: 13px; color: var(--color-text-secondary); }
+.dayDate  { font-size: 18px; font-weight: 700; color: var(--color-text-primary); }
+.dayScore { font-size: 13px; color: var(--color-caption); }
 
-/* ── Корреляции ── */
 .corrGrid {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -101,22 +105,23 @@
 }
 
 .corrCard {
-  background: var(--color-background-secondary, #f7f7f7);
-  border-radius: 12px;
+  background: var(--color-card-input);
+  border-radius: 14px;
   padding: 20px;
-  border: 1px solid var(--color-border-tertiary, #e0e0e0);
+  border: 1px solid var(--color-border-tertiary);
+  box-shadow: 0 2px 12px rgba(37, 122, 116, 0.07);
 }
 
 .corrName {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 12px;
-  color: var(--color-text-primary, #111);
+  color: var(--color-text-primary);
 }
 
 .corrBar {
   height: 8px;
-  background: var(--color-border-tertiary, #e0e0e0);
+  background: var(--color-disabled);
   border-radius: 4px;
   overflow: hidden;
   margin-bottom: 8px;
@@ -131,17 +136,16 @@
 
 .corrValue {
   font-size: 22px;
-  font-weight: 600;
-  color: var(--color-text-primary, #111);
+  font-weight: 700;
+  color: var(--color-text-primary);
 }
 
 .corrHint {
   font-size: 12px;
-  color: var(--color-text-secondary, #888);
+  color: var(--color-text-secondary);
   margin-top: 2px;
 }
 
-/* ── Привычки ── */
 .habitList {
   display: flex;
   flex-direction: column;
@@ -162,7 +166,8 @@
 
 .habitName {
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
+  color: var(--color-text-primary);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -170,7 +175,7 @@
 
 .habitBar {
   height: 10px;
-  background: var(--color-border-tertiary, #e0e0e0);
+  background: var(--color-disabled);
   border-radius: 5px;
   overflow: hidden;
 }
@@ -183,11 +188,10 @@
 
 .habitMeta {
   font-size: 13px;
-  color: var(--color-text-secondary, #666);
+  color: var(--color-text-secondary);
   text-align: right;
 }
 
-/* ── Рекомендации ── */
 .recList {
   display: flex;
   flex-direction: column;
@@ -200,11 +204,13 @@
   align-items: flex-start;
   gap: 12px;
   padding: 16px 20px;
-  border-radius: 10px;
+  border-radius: 12px;
   border-left: 4px solid;
-  background: var(--color-background-secondary, #f7f7f7);
+  background: var(--color-card-input);
   font-size: 14px;
   line-height: 1.6;
+  color: var(--color-text-primary);
+  box-shadow: 0 2px 10px rgba(37, 122, 116, 0.07);
 }
 
 .recIcon {
@@ -213,12 +219,12 @@
   margin-top: 1px;
 }
 
-/* ── AI блок ── */
 .aiBlock {
-  border: 1px solid var(--color-border-secondary, #ddd);
-  border-radius: 16px;
+  border: 1px solid var(--color-border);
+  border-radius: 18px;
   padding: 28px;
-  background: var(--color-background-secondary, #fafafa);
+  background: var(--color-card-input);
+  box-shadow: 0 4px 20px rgba(37, 122, 116, 0.08);
 }
 
 .aiHeader {
@@ -232,23 +238,24 @@
 
 .aiButton {
   padding: 10px 22px;
-  border-radius: 8px;
+  border-radius: 10px;
   border: none;
-  background: #6c63ff;
+  background: linear-gradient(135deg, var(--color-accent), var(--color-button-hover));
   color: #fff;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: opacity 0.2s, transform 0.15s;
 }
 
 .aiButton:disabled {
-  opacity: 0.6;
+  opacity: 0.55;
   cursor: default;
 }
 
 .aiButton:hover:not(:disabled) {
-  opacity: 0.85;
+  opacity: 0.88;
+  transform: translateY(-1px);
 }
 
 .aiLoading {
@@ -261,8 +268,8 @@
 .spinner {
   width: 20px;
   height: 20px;
-  border: 2px solid #ddd;
-  border-top-color: #6c63ff;
+  border: 2px solid var(--color-disabled);
+  border-top-color: var(--color-accent);
   border-radius: 50%;
   animation: spin 0.8s linear infinite;
   flex-shrink: 0;
@@ -275,13 +282,13 @@
 .aiResult {
   font-size: 14px;
   line-height: 1.75;
-  color: var(--color-text-primary, #111);
+  color: var(--color-text-primary);
 }
 
-.aiResult p {
-  margin-bottom: 12px;
-}
-
-.aiResult p:last-child {
-  margin-bottom: 0;
+.aiResult p { margin-bottom: 12px; }
+.aiResult p:last-child { margin-bottom: 0; }
+.pageWrapper {
+  background: var(--color-bg-page);
+  min-height: 100vh;
+  width: 100%;
 }

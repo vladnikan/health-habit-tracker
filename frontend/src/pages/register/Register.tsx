@@ -1,4 +1,3 @@
-// src/pages/register/Register.tsx
 import React, { useState } from "react";
 import { useAppDispatch } from "../../hooks/hooks";
 import { authThunks } from "../../store/auth/thunks";

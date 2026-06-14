@@ -1,9 +1,6 @@
-# backend/app/main.py
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-
-# ←←← ВАЖНО: Импортируем модели, чтобы они зарегистрировались
 from app.models.user import User
 from app.models.habit import Habit
 
@@ -45,9 +42,9 @@ async def startup_event():
     try:
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
-        print("✅ Таблицы успешно созданы или уже существуют")
+        print("Таблицы успешно созданы или уже существуют")
     except Exception as e:
-        print(f"❌ Ошибка при создании таблиц: {e}")
+        print(f"Ошибка при создании таблиц: {e}")
 
 app.include_router(auth.router)
 app.include_router(habits.router)

@@ -1,4 +1,3 @@
-// src/store/metric/slice.ts
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchMetrics, saveMetrics, fetchNorms } from "./thunks";
 import type { TMetricsState } from "./types";
@@ -16,7 +15,7 @@ const metricsSlice = createSlice({
   reducers: {},
   extraReducers: (builder) => {
     builder
-      // Метрики
+ 
       .addCase(fetchMetrics.pending, (state) => {
         state.isLoading = true;
       })
@@ -29,7 +28,6 @@ const metricsSlice = createSlice({
         state.error = action.payload || "Ошибка загрузки метрик";
       })
 
-      // Нормы
       .addCase(fetchNorms.fulfilled, (state, action) => {
         state.norms = action.payload;
       })
@@ -37,7 +35,6 @@ const metricsSlice = createSlice({
         state.norms = null;
       })
 
-      // Сохранение
       .addCase(saveMetrics.fulfilled, (state, action) => {
         const index = state.metrics.findIndex(
           (m) => m.date === action.payload.date

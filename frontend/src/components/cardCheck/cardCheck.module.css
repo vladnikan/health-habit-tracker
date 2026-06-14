@@ -1,30 +1,17 @@
 .card {
   position: relative;
-
   display: flex;
   flex-direction: column;
-
   width: 640px;
   min-height: 260px;
-
   padding: 22px;
-
   border-radius: 26px;
-
-  background: linear-gradient(
-    220deg,
-    rgb(28, 207, 4),
-    rgb(0, 174, 255)
-  );
-
+  background: linear-gradient(220deg, #257a74, #2a9d8f, #4daa6e);
   color: white;
-
   overflow: hidden;
-
   box-shadow:
-    0 12px 30px rgba(0, 0, 0, 0.18),
+    0 12px 30px rgba(37, 122, 116, 0.28),
     inset 0 1px 1px rgba(255, 255, 255, 0.15);
-
   transition:
     transform 0.25s ease,
     box-shadow 0.25s ease;
@@ -32,9 +19,8 @@
 
 .card:hover {
   transform: translateY(-5px);
-
   box-shadow:
-    0 18px 40px rgba(0, 0, 0, 0.22),
+    0 18px 40px rgba(37, 122, 116, 0.35),
     inset 0 1px 1px rgba(255, 255, 255, 0.15);
 }
 
@@ -42,22 +28,15 @@
 .trash,
 .edit {
   position: absolute;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   width: 36px;
   height: 36px;
-
   border-radius: 12px;
-
-  background: rgba(255, 255, 255, 0.15);
-
+  background: rgba(255, 255, 255, 0.18);
   backdrop-filter: blur(8px);
-
   cursor: pointer;
-
   transition:
     background 0.2s ease,
     transform 0.2s ease;
@@ -66,29 +45,17 @@
 .status:hover,
 .trash:hover,
 .edit:hover {
-  background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.3);
   transform: scale(1.05);
 }
 
-.status {
-  top: 18px;
-  left: 18px;
-}
-
-.edit {
-  top: 18px;
-  right: 62px;
-}
-
-.trash {
-  top: 18px;
-  right: 18px;
-}
+.status { top: 18px; left: 18px; }
+.edit   { top: 18px; right: 62px; }
+.trash  { top: 18px; right: 18px; }
 
 .title {
   margin-top: 48px;
   margin-bottom: 6px;
-
   font-size: 24px;
   font-weight: 700;
 }
@@ -102,15 +69,10 @@
   display: flex;
   align-items: center;
   gap: 8px;
-
   margin-bottom: 22px;
-
   padding: 10px 14px;
-
   border-radius: 16px;
-
-  background: rgba(255, 255, 255, 0.12);
-
+  background: rgba(255, 255, 255, 0.15);
   width: fit-content;
 }
 
@@ -118,59 +80,35 @@
   display: flex;
   flex-direction: column;
   gap: 10px;
-
   margin-top: auto;
 }
 
 .progress {
   width: 100%;
   height: 8px;
-
   border-radius: 20px;
-
   overflow: hidden;
-
-  background: rgba(255, 255, 255, 0.2);
+  background: rgba(255, 255, 255, 0.22);
 }
 
 .progressFill {
   height: 100%;
-
   border-radius: inherit;
-
-  background: linear-gradient(
-    90deg,
-    rgba(255, 255, 255, 1),
-    rgba(255, 255, 255, 0.7)
-  );
-
+  background: linear-gradient(90deg, rgba(255,255,255,1), rgba(255,255,255,0.65));
   transition: width 0.8s ease;
 }
 
 .todayDone {
   margin-top: 18px;
-
   padding: 10px 14px;
-
   border-radius: 14px;
-
-  background: rgba(255, 255, 255, 0.15);
-
+  background: rgba(255, 255, 255, 0.18);
   text-align: center;
-
   font-weight: 600;
-
   animation: fadeIn 0.3s ease;
 }
 
 @keyframes fadeIn {
-  from {
-    opacity: 0;
-    transform: translateY(4px);
-  }
-
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
 }

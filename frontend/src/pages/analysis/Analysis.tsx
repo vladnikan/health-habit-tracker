@@ -17,8 +17,6 @@ import {
 import { API_URL } from "../../utils/api";
 import style from "./analysis.module.css";
 
-// ─── Типы ────────────────────────────────────────────────────────────────────
-
 type Recommendation = {
   type: "danger" | "warning" | "info" | "success";
   metric: string;
@@ -41,8 +39,6 @@ type AnalysisData = {
   }>;
   recommendations: Recommendation[];
 };
-
-// ─── Утилиты ─────────────────────────────────────────────────────────────────
 
 const REC_COLORS: Record<string, string> = {
   danger: "#e74c3c",
@@ -73,7 +69,6 @@ const TREND_ICONS: Record<string, string> = {
   "недостаточно данных": "—",
 };
 
-// Нормы для радар-чарта (0-100)
 function normalizeForRadar(averages: Record<string, number | null>) {
   return [
     {
@@ -100,8 +95,6 @@ function normalizeForRadar(averages: Record<string, number | null>) {
     },
   ];
 }
-
-// ─── Компонент AI-анализа ─────────────────────────────────────────────────────
 
 function AiInsight({ data }: { data: AnalysisData }) {
   const token =
@@ -205,7 +198,6 @@ export const Analysis: React.FC = () => {
 
   const radarData = normalizeForRadar(data.averages);
 
-  // Данные для графика корреляций
   const corrData = [
     {
       name: "Сон ↔ Стресс",
@@ -223,7 +215,6 @@ export const Analysis: React.FC = () => {
   return (
     <>
       <main className={style.page}>
-        {/* Заголовок */}
         <div className={style.hero}>
           <Text style="H2">Глубокий анализ</Text>
           <Text style="H4">
@@ -232,7 +223,6 @@ export const Analysis: React.FC = () => {
           </Text>
         </div>
 
-        {/* Средние показатели */}
         <section className={style.section}>
           <Text style="H3">Средние показатели</Text>
           <div className={style.statsGrid}>
@@ -254,7 +244,6 @@ export const Analysis: React.FC = () => {
           </div>
         </section>
 
-        {/* Радар + лучший/худший день */}
         <section className={style.section}>
           <div className={style.twoCol}>
             <div>
@@ -305,7 +294,6 @@ export const Analysis: React.FC = () => {
           </div>
         </section>
 
-        {/* Корреляции */}
         <section className={style.section}>
           <Text style="H3">Корреляции между метриками</Text>
           <Text style="H4">От −1 (обратная) до +1 (прямая связь)</Text>
@@ -336,7 +324,6 @@ export const Analysis: React.FC = () => {
           </div>
         </section>
 
-        {/* Привычки */}
         {data.habit_completion.length > 0 && (
           <section className={style.section}>
             <Text style="H3">Выполнение привычек за 30 дней</Text>
@@ -367,7 +354,6 @@ export const Analysis: React.FC = () => {
           </section>
         )}
 
-        {/* Рекомендации */}
         <section className={style.section}>
           <Text style="H3">Рекомендации системы</Text>
           <div className={style.recList}>
@@ -384,7 +370,6 @@ export const Analysis: React.FC = () => {
           </div>
         </section>
 
-        {/* AI анализ */}
         <section className={style.section}>
           <AiInsight data={data} />
         </section>

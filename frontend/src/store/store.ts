@@ -13,10 +13,7 @@ export const store = configureStore({
     goals: goalReducer,
     notification: notificationReducer
   },
-  // middleware: (getDefaultMiddleware) =>
-  //   getDefaultMiddleware().concat(api.middleware), // пока закомментировано, если RTK Query не используешь
 });
 
-// Типы для удобства использования в компонентах
 export type RootState = ReturnType<typeof store.getState>;
 export type AppDispatch = typeof store.dispatch;

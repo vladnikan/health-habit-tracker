@@ -6,6 +6,7 @@ import { CardInfo } from "../../components/cardInfo/cardInfo";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { fetchMetrics, saveMetrics, fetchNorms } from "../../store/metric/thunks";
 import { DataTransfer } from "../../components/dataTransfer";
+import { Disclaimer } from "../../components/disclaimer";
 import style from "./health.module.css";
 
 export const Health: React.FC = () => {
@@ -132,7 +133,7 @@ export const Health: React.FC = () => {
             </div>
           </div>
         </div>
-
+        <Disclaimer/>
         <div className={style.formGrid}>
           <div>
             <Text style="H4">Сон (часы)</Text>

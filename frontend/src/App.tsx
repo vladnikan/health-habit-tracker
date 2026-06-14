@@ -11,7 +11,7 @@ import { Analysis } from "./pages/analysis/Analysis";
 import { Health } from "./pages/health/Health";
 import { ProtectedRoute } from "./components/protectedRoute/Protectedroute";
 import { NotFound } from "./pages/notFound/NotFound";
-import { Profile } from "./pages/profile/Profile";
+import { Profile } from "./pages/profile/profile";
 import { Layout } from "./components/layout/Layout";
 
 

@@ -21,7 +21,7 @@ export const Dropdown: React.FC<DropdownProps> = ({
   const [selectedItem, setSelectedItem] = useState<DropdownItem | null>(null);
 
   useEffect(() => {
-    if (!defaultValueId) return; // если нет значения по умолчанию, не устанавливаем ничего
+    if (!defaultValueId) return;
 
     const item = items.find((i) => i.id === defaultValueId) ?? null;
     setSelectedItem(item);

@@ -1,3 +1,5 @@
+/* ── Dashboard.module.css ── тил/мята + оставляем бегущую линию ── */
+
 .page {
   display: flex;
   flex-direction: column;
@@ -5,55 +7,52 @@
   min-height: 100vh;
   position: relative;
   overflow: hidden;
-
-  background: linear-gradient(135deg, #f8fafd 0%, #f0f4ff 100%);
+  /* мятный светлый фон */
+  background: var(--color-bg-page);
 }
 
-/* мягкий общий glow фон */
-.page {
-  position: relative;
-  overflow: hidden;
-  background: linear-gradient(135deg, #f8fafd 0%, #f0f4ff 100%);
-}
-
-/* контейнер для линии */
+/* бегущая линия — тил вместо синего */
 .page::before {
   content: "";
   position: absolute;
   inset: 0;
-  background-image: url("data:image/svg+xml,%3Csvg width='600' height='200' viewBox='0 0 600 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 100 L50 100 L70 60 L90 140 L110 100 L160 100 L180 80 L200 120 L220 100 L600 100' stroke='%234f75ff' stroke-width='2' fill='none' opacity='0.15'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg width='600' height='200' viewBox='0 0 600 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 100 L50 100 L70 60 L90 140 L110 100 L160 100 L180 80 L200 120 L220 100 L600 100' stroke='%232a9d8f' stroke-width='2' fill='none' opacity='0.2'/%3E%3C/svg%3E");
   background-repeat: repeat-x;
   background-size: 400px 200px;
   animation: moveLine 6s linear infinite;
-  opacity: 0.4;
+  opacity: 0.45;
   pointer-events: none;
   z-index: 0;
 }
 
+[data-theme="dark"] .page::before {
+  background-image: url("data:image/svg+xml,%3Csvg width='600' height='200' viewBox='0 0 600 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 100 L50 100 L70 60 L90 140 L110 100 L160 100 L180 80 L200 120 L220 100 L600 100' stroke='%237dc97a' stroke-width='2' fill='none' opacity='0.25'/%3E%3C/svg%3E");
+  opacity: 0.35;
+}
+
 @keyframes moveLine {
-  0% {
-    background-position-x: 0;
-  }
-  100% {
-    background-position-x: 400px;
-  }
+  0%   { background-position-x: 0; }
+  100% { background-position-x: 400px; }
 }
 
 .main {
   position: relative;
   z-index: 1;
+  padding: 40px 32px;
+  max-width: 1400px;
+  width: 100%;
+  margin: 0 auto;
+  background: var(--color-bg-page);
 }
 
-/* сетка карточек */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
   gap: 24px;
 }
 
-/* приветствие */
 .greet {
-  color: black;
+  color: var(--color-accent);
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -61,14 +60,14 @@
 }
 
 .graphic__name {
-  color: black;
+  color: var(--color-accent);
   margin-top: 60px;
+  margin-bottom: 16px;
 }
 
-/* графики */
 .charts {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(480px, 1fr));
   gap: 24px;
-  margin-top: 40px;
+  margin-top: 24px;
 }

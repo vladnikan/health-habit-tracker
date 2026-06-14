@@ -3,12 +3,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  background: linear-gradient(
-    220deg,
-    rgb(0, 0, 255),
-    rgb(0, 199, 0),
-    rgb(37, 163, 247)
-  );
+  background: linear-gradient(220deg, #257a74, #4daa6e, #c8f0c0);
   background-size: 300% 300%;
   animation: move-bg 13s linear infinite;
   padding: 20px;
@@ -17,13 +12,14 @@
 .formWrapper {
   width: 100%;
   max-width: 500px;
-  background: rgba(0, 0, 0, 0.3);
-  backdrop-filter: blur(10px);
+  background: rgba(255, 255, 255, 0.88);
+  backdrop-filter: blur(16px);
   border-radius: 20px;
   padding: 32px;
   display: flex;
   flex-direction: column;
   gap: 16px;
+  box-shadow: 0 8px 32px rgba(37, 122, 116, 0.18);
 }
 
 .form {
@@ -42,21 +38,19 @@
   width: 100%;
   padding: 12px;
   border-radius: 12px;
-  color: black;
-  border: none;
+  color: #257a74;
+  border: 1.5px solid #7dc97a;
   outline: none;
+  font-size: 15px;
+  transition: border-color 0.2s;
+}
+
+.select:focus {
+  border-color: #257a74;
 }
 
 @keyframes move-bg {
-  0% {
-    background-position: 0% 50%;
-  }
-
-  50% {
-    background-position: 100% 50%;
-  }
-
-  100% {
-    background-position: 0% 50%;
-  }
+  0%   { background-position: 0% 50%; }
+  50%  { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
 }

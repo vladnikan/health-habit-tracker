@@ -23,26 +23,22 @@ const authSlice = createSlice({
   },
 
   extraReducers: (builder) => {
-    /**
-     * LOGIN
-     */
     builder
       .addCase(authThunks.login.pending, (state) => {
         state.isLoading = true;
       })
       .addCase(authThunks.login.fulfilled, (state, action) => {
         state.isLoading = false;
-        state.token = action.payload.token;
-        state.userData = action.payload.user;
+        state.token = action.payload.access_token ?? action.payload.token ?? null;
+        state.userData = action.payload.user ?? state.userData;
+        state.isAuthChecked = true;
+        state.error = null;
       })
       .addCase(authThunks.login.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload ?? "Ошибка входа";
       });
 
-    /**
-     * REGISTER (НОВЫЙ)
-     */
     builder
       .addCase(authThunks.register.pending, (state) => {
         state.isLoading = true;
@@ -54,18 +50,25 @@ const authSlice = createSlice({
       .addCase(authThunks.register.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload ?? "Ошибка регистрации";
-      })
-      // В extraReducers добавь:
+      });
 
+    builder
       .addCase(authThunks.getUserData.fulfilled, (state, action) => {
         state.userData = action.payload;
-        // state.token = localStorage.getItem("token"); // на всякий
+        state.isAuthChecked = true;
       })
-
       .addCase(authThunks.getUserData.rejected, (state) => {
         state.userData = null;
         state.token = null;
+        state.isAuthChecked = true;
       });
+
+    builder.addCase(authThunks.logout.fulfilled, (state) => {
+      state.token = null;
+      state.userData = null;
+      state.error = null;
+      state.isAuthChecked = true;
+    });
   },
 });
 

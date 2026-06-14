@@ -6,9 +6,10 @@ import { Logo } from "../../ui/logo";
 import { Text } from "../../ui/text";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { fetchNotifications, markAllAsRead, markAsRead } from "../../store/notification/thunks";
+import { useTheme } from "../../hooks/useTheme";
 
 export const Header: React.FC = () => {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
+  const { theme, toggleTheme } = useTheme();
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const notifRef = useRef<HTMLDivElement>(null);
 
@@ -29,10 +30,6 @@ export const Header: React.FC = () => {
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
-
-  const handleToggleTheme = () => {
-    setTheme(theme === "light" ? "dark" : "light");
-  };
 
   const TYPE_ICONS: Record<string, string> = {
     achievement: "🏆",
@@ -134,11 +131,10 @@ export const Header: React.FC = () => {
             <Icon kind="user-circle" />
           </Link>
 
-          {/* Тема */}
           <div className={style.theme}>
             <Icon
               kind={theme === "light" ? "moon" : "sun"}
-              onClick={handleToggleTheme}
+              onClick={toggleTheme}
             />
           </div>
         </div>

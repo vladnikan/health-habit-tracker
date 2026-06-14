@@ -1,4 +1,3 @@
-// src/store/habit/slice.ts
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 import type { THabitState, THabitData, THabitCheck } from "./types";
 import {
@@ -33,9 +32,6 @@ const habitSlice = createSlice({
   extraReducers: (builder) => {
     builder
 
-      // =====================
-      // FETCH HABITS
-      // =====================
       .addCase(fetchHabits.pending, (state) => {
         state.isLoading = true;
         state.error = null;
@@ -52,9 +48,6 @@ const habitSlice = createSlice({
         state.error = action.payload || "Ошибка загрузки привычек";
       })
 
-      // =====================
-      // FETCH ALL CHECKS (главный)
-      // =====================
       .addCase(fetchAllChecks.pending, (state) => {
         state.isLoading = true;
       })
@@ -70,9 +63,7 @@ const habitSlice = createSlice({
         state.error = action.payload || "Ошибка загрузки отметок";
       })
 
-      // =====================
-      // CREATE HABIT
-      // =====================
+
       .addCase(
         createHabit.fulfilled,
         (state, action: PayloadAction<THabitData>) => {
@@ -80,24 +71,17 @@ const habitSlice = createSlice({
         },
       )
 
-      // =====================
-      // CREATE CHECK
-      // =====================
       .addCase(
         createHabitCheck.fulfilled,
         (state, action: PayloadAction<THabitCheck>) => {
-          state.checks.push(action.payload); // Добавляем новую отметку
+          state.checks.push(action.payload);
         },
       )
 
-      // =====================
-      // DELETE HABIT
-      // =====================
       .addCase(
         deleteHabit.fulfilled,
         (state, action: PayloadAction<number>) => {
           state.habits = state.habits.filter((h) => h.id !== action.payload);
-          // Можно также почистить чеки этой привычки, но не обязательно
         },
       )
 

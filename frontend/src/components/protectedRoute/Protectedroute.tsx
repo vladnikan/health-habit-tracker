@@ -1,4 +1,3 @@
-// src/components/ProtectedRoute/Protectedroute.tsx
 import { useAppSelector } from '../../hooks/hooks';
 import { Preloader } from '../../ui/preloader';
 import { Navigate, useLocation } from 'react-router-dom';
@@ -20,12 +19,10 @@ export const ProtectedRoute = ({
     return <Preloader />;
   }
 
-  // Страницы только для НЕавторизованных
   if (onlyUnAuth) {
     return userData || token ? <Navigate to="/" replace /> : element;
   }
 
-  // Защищённые страницы
   if (!userData && !token) {
     return <Navigate to="/login" state={{ from: location }} replace />;
   }
