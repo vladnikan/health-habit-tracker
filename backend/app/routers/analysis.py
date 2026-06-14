@@ -76,7 +76,6 @@ async def get_analysis(
         "stress": avg("stress"),
     }
 
-    # Тренды
     def vals(field):
         return [getattr(m, field) for m in metrics if getattr(m, field) is not None]
 
@@ -87,13 +86,11 @@ async def get_analysis(
         "stress": calc_trend(vals("stress")),
     }
 
-    # Корреляции
     sleep_vals = vals("sleep")
     stress_vals = vals("stress")
     steps_vals = vals("steps")
     hr_vals = vals("heart_rate")
 
-    # Выравниваем длины для корреляции
     def aligned(a, b, field_a, field_b):
         pairs = [(getattr(m, field_a), getattr(m, field_b))
                  for m in metrics
@@ -108,7 +105,6 @@ async def get_analysis(
         "steps_heart_rate": pearson_correlation(sp, hr),
     }
 
-    # Лучший и худший день по общему score
     def day_score(m):
         score = 0
         if m.sleep: score += min(m.sleep / 8, 1) * 25
