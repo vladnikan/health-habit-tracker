@@ -1,24 +1,47 @@
-from fastapi import APIRouter, Depends
-from sqlalchemy.ext.asyncio import AsyncSession
+import csv
+import io
+import json
+
+from datetime import date, datetime, timezone
+
+from fastapi import (
+    APIRouter,
+    Depends,
+    File,
+    HTTPException,
+    UploadFile,
+)
+from fastapi.responses import StreamingResponse
+
 from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
 from app.core.database import get_db
-from app.models.user import User
 from app.models.metric import HealthMetric
-from app.schemas.metric import HealthMetricCreate, HealthMetricResponse
+from app.models.user import User
 from app.routers.auth import get_current_user
-from datetime import date
+from app.schemas.metric import (
+    HealthMetricCreate,
+    HealthMetricResponse,
+)
 from app.utils.health_norms import calculate_norms
 
 router = APIRouter(prefix="/metrics", tags=["metrics"])
+
 
 @router.get("/", response_model=list[HealthMetricResponse])
 async def get_metrics(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    stmt = select(HealthMetric).where(HealthMetric.user_id == current_user.id).order_by(HealthMetric.date.desc())
+    stmt = (
+        select(HealthMetric)
+        .where(HealthMetric.user_id == current_user.id)
+        .order_by(HealthMetric.date.desc())
+    )
     result = await db.execute(stmt)
     return result.scalars().all()
+
 
 @router.post("/", response_model=HealthMetricResponse)
 async def save_metrics(
@@ -26,14 +49,14 @@ async def save_metrics(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    # Приводим дату к объекту date
     if isinstance(metric.date, str):
-        from datetime import datetime
-        metric_date = datetime.strptime(metric.date, "%Y-%m-%d").date()
+        metric_date = datetime.strptime(
+            metric.date,
+            "%Y-%m-%d"
+        ).date()
     else:
         metric_date = metric.date or date.today()
 
-    # Запрос
     stmt = select(HealthMetric).where(
         HealthMetric.user_id == current_user.id,
         HealthMetric.date == metric_date
@@ -43,36 +66,41 @@ async def save_metrics(
     existing = result.scalar_one_or_none()
 
     if existing:
-        # Обновляем
-        update_data = metric.model_dump(exclude_unset=True, exclude={"date"})
+        update_data = metric.model_dump(
+            exclude_unset=True,
+            exclude={"date"}
+        )
+
         for field, value in update_data.items():
             if value is not None:
                 setattr(existing, field, value)
+
         await db.commit()
         await db.refresh(existing)
         return existing
-    else:
-        # Создаём новую
-        new_metric = HealthMetric(
-            user_id=current_user.id,
-            date=metric_date,
-            **metric.model_dump(exclude_unset=True, exclude={"date"})
+
+    new_metric = HealthMetric(
+        user_id=current_user.id,
+        date=metric_date,
+        **metric.model_dump(
+            exclude_unset=True,
+            exclude={"date"}
         )
-        db.add(new_metric)
-        await db.commit()
-        await db.refresh(new_metric)
-        return new_metric
-    
-from app.utils.health_norms import calculate_norms
+    )
+
+    db.add(new_metric)
+    await db.commit()
+    await db.refresh(new_metric)
+
+    return new_metric
+
 
 @router.get("/norms")
 async def get_norms(
     current_user: User = Depends(get_current_user)
 ):
     return calculate_norms(current_user)
-    
-from fastapi import UploadFile, File
-import json
+
 
 @router.post("/import")
 async def import_metrics(
@@ -81,61 +109,68 @@ async def import_metrics(
     db: AsyncSession = Depends(get_db)
 ):
     content = await file.read()
-    
+
     try:
         raw = json.loads(content)
     except Exception:
-        raise HTTPException(status_code=400, detail="Неверный формат файла")
+        raise HTTPException(
+            status_code=400,
+            detail="Неверный формат файла"
+        )
 
     imported = []
-
-    # Парсим формат Google Takeout
     buckets = raw.get("bucket", [])
-    
+
     for bucket in buckets:
-        # Дата из миллисекунд
         start_ms = int(bucket.get("startTimeMillis", 0))
+
         if not start_ms:
             continue
-        
-        from datetime import datetime, timezone
+
         metric_date = datetime.fromtimestamp(
-            start_ms / 1000, tz=timezone.utc
+            start_ms / 1000,
+            tz=timezone.utc
         ).date()
 
-        # Собираем данные из датасетов
         steps = None
         sleep = None
 
         for dataset in bucket.get("dataset", []):
             dtype = dataset.get("dataTypeName", "")
             points = dataset.get("point", [])
-            
+
             if not points:
                 continue
-                
+
             value = points[0].get("value", [{}])[0]
 
             if "step_count" in dtype:
                 steps = value.get("intVal")
             elif "sleep" in dtype:
-                # sleep в минутах → часы
                 sleep_min = value.get("intVal", 0)
-                sleep = round(sleep_min / 60, 1) if sleep_min else None
+                sleep = round(
+                    sleep_min / 60,
+                    1
+                ) if sleep_min else None
 
         if steps is None and sleep is None:
             continue
 
-        # Проверяем существующую запись
         stmt = select(HealthMetric).where(
             HealthMetric.user_id == current_user.id,
             HealthMetric.date == metric_date
         )
-        existing = (await db.execute(stmt)).scalar_one_or_none()
+
+        existing = (
+            await db.execute(stmt)
+        ).scalar_one_or_none()
 
         if existing:
-            if steps: existing.steps = steps
-            if sleep: existing.sleep = sleep
+            if steps:
+                existing.steps = steps
+
+            if sleep:
+                existing.sleep = sleep
         else:
             new_metric = HealthMetric(
                 user_id=current_user.id,
@@ -143,34 +178,46 @@ async def import_metrics(
                 steps=steps,
                 sleep=sleep,
             )
+
             db.add(new_metric)
             imported.append(metric_date.isoformat())
 
     await db.commit()
-    return {"imported": len(imported), "dates": imported}
 
-from fastapi.responses import StreamingResponse
-import csv
-import io
+    return {
+        "imported": len(imported),
+        "dates": imported,
+    }
+
 
 @router.get("/export/csv")
 async def export_csv(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    stmt = select(HealthMetric).where(
-        HealthMetric.user_id == current_user.id
-    ).order_by(HealthMetric.date.asc())
-    
+    stmt = (
+        select(HealthMetric)
+        .where(
+            HealthMetric.user_id == current_user.id
+        )
+        .order_by(HealthMetric.date.asc())
+    )
+
     result = await db.execute(stmt)
     metrics = result.scalars().all()
 
     output = io.StringIO()
     writer = csv.writer(output)
-    
-    # Заголовок
-    writer.writerow(["Дата", "Сон (ч)", "Вода (л)", "Шаги", "Пульс", "Стресс"])
-    
+
+    writer.writerow([
+        "Дата",
+        "Сон (ч)",
+        "Вода (л)",
+        "Шаги",
+        "Пульс",
+        "Стресс",
+    ])
+
     for m in metrics:
         writer.writerow([
             m.date,
@@ -182,11 +229,14 @@ async def export_csv(
         ])
 
     output.seek(0)
-    
+
     return StreamingResponse(
         iter([output.getvalue()]),
         media_type="text/csv",
-        headers={"Content-Disposition": "attachment; filename=health_metrics.csv"}
+        headers={
+            "Content-Disposition":
+            "attachment; filename=health_metrics.csv"
+        }
     )
 
 
@@ -195,10 +245,14 @@ async def export_json(
     current_user: User = Depends(get_current_user),
     db: AsyncSession = Depends(get_db)
 ):
-    stmt = select(HealthMetric).where(
-        HealthMetric.user_id == current_user.id
-    ).order_by(HealthMetric.date.asc())
-    
+    stmt = (
+        select(HealthMetric)
+        .where(
+            HealthMetric.user_id == current_user.id
+        )
+        .order_by(HealthMetric.date.asc())
+    )
+
     result = await db.execute(stmt)
     metrics = result.scalars().all()
 
@@ -211,10 +265,17 @@ async def export_json(
         "stress": m.stress,
     } for m in metrics]
 
-    content = json.dumps({"metrics": data}, ensure_ascii=False, indent=2)
-    
+    content = json.dumps(
+        {"metrics": data},
+        ensure_ascii=False,
+        indent=2,
+    )
+
     return StreamingResponse(
         iter([content]),
         media_type="application/json",
-        headers={"Content-Disposition": "attachment; filename=health_metrics.json"}
+        headers={
+            "Content-Disposition":
+            "attachment; filename=health_metrics.json"
+        }
     )

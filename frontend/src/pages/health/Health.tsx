@@ -1,7 +1,4 @@
-// src/pages/health/Health.tsx
 import React, { useState, useEffect } from "react";
-import { Header } from "../../components/header";
-import { Footer } from "../../components/footer";
 import { Text } from "../../ui/text";
 import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
@@ -9,6 +6,7 @@ import { CardInfo } from "../../components/cardInfo/cardInfo";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { fetchMetrics, saveMetrics, fetchNorms } from "../../store/metric/thunks";
 import { DataTransfer } from "../../components/dataTransfer";
+import { Disclaimer } from "../../components/disclaimer";
 import style from "./health.module.css";
 
 export const Health: React.FC = () => {
@@ -26,13 +24,11 @@ export const Health: React.FC = () => {
     stress: 0,
   });
 
-  // Загрузка данных
   useEffect(() => {
     dispatch(fetchMetrics());
     dispatch(fetchNorms());
   }, [dispatch]);
 
-  // Заполняем форму
   useEffect(() => {
     const today = new Date().toISOString().split("T")[0];
     const todayMetric = metrics.find((m) => m.date === today);
@@ -75,13 +71,10 @@ export const Health: React.FC = () => {
 
   return (
     <div className={style.page}>
-      <Header />
-
       <div className={style.mainText}>
         <Text style="H2">Показатели здоровья</Text>
         <Text style="H4">Вводите данные ежедневно</Text>
       </div>
-
       <main className={style.main}>
         <div className={style.metricsGrid}>
           <div>
@@ -95,7 +88,6 @@ export const Health: React.FC = () => {
               <Text style="H4">Норма для вас: {norms?.sleep?.label || "—"}</Text>
             </div>
           </div>
-
           <div>
             <CardInfo
               icon="water"
@@ -107,7 +99,6 @@ export const Health: React.FC = () => {
               Норма: {norms?.water?.label || "—"}
             </div>
           </div>
-
           <div>
             <CardInfo
               icon="pulse"
@@ -119,7 +110,6 @@ export const Health: React.FC = () => {
               Норма: {norms?.steps?.label || "—"}
             </div>
           </div>
-
           <div>
             <CardInfo
               icon="heart"
@@ -131,7 +121,6 @@ export const Health: React.FC = () => {
               Норма: {norms?.heart_rate?.label || "—"}
             </div>
           </div>
-
           <div>
             <CardInfo
               icon="stress"
@@ -144,7 +133,7 @@ export const Health: React.FC = () => {
             </div>
           </div>
         </div>
-
+        <Disclaimer/>
         <div className={style.formGrid}>
           <div>
             <Text style="H4">Сон (часы)</Text>
@@ -206,8 +195,6 @@ export const Health: React.FC = () => {
       <section style={{ padding: "0 20px 40px" }}>
         <DataTransfer />
       </section>
-
-      <Footer />
     </div>
   );
 };

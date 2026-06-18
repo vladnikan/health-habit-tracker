@@ -1,31 +1,63 @@
 .card {
-    display: flex;
-    flex-direction: column;
-    width: 300px;
-    height: 175px;
-    border-radius: 25px;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-width: 260px;
+  max-width: 360px;
+  min-height: 175px;
+  border-radius: 22px;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.12);
+  transition: transform 0.22s ease, box-shadow 0.22s ease;
+  overflow: hidden;
+}
+
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 28px rgba(0, 0, 0, 0.17);
 }
 
 .title__section {
-    display: flex;
-    padding: 20px 10px;
-    justify-content: space-between;
+  display: flex;
+  padding: 18px 16px 8px;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.title {
+  flex: 1;
+}
+
+.icon {
+  flex-shrink: 0;
+  margin-left: 8px;
 }
 
 .content {
-    display: flex;
-    flex-direction: column;
-    padding: 10px;
-    gap: 5px;
+  display: flex;
+  flex-direction: column;
+  padding: 0 16px 16px;
+  gap: 6px;
 }
 
 .card {
-    color: white;
+  color: white;
 }
 
 .progress__bar {
-    background-color: white;
-    height: 5px;
-    border-radius: 15px;
-    width: 100%;
+  background-color: rgba(255, 255, 255, 0.35);
+  height: 5px;
+  border-radius: 15px;
+  width: 100%;
+  overflow: hidden;
+}
+
+.progress__bar > div {
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 15px;
+  transition: width 0.6s ease;
+}
+
+.target {
+  opacity: 0.9;
 }

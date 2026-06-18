@@ -11,11 +11,11 @@ class HealthMetric(Base):
     user_id = Column(Integer, ForeignKey("users.id"), nullable=False)
     date = Column(Date, nullable=False, default=date.today)
 
-    sleep = Column(Float, nullable=True)        # часы
-    water = Column(Float, nullable=True)        # литры
+    sleep = Column(Float, nullable=True)
+    water = Column(Float, nullable=True)
     steps = Column(Integer, nullable=True)
     heart_rate = Column(Integer, nullable=True)
-    stress = Column(Integer, nullable=True)     # 0-100
+    stress = Column(Integer, nullable=True)
 
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 

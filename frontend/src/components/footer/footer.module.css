@@ -1,21 +1,26 @@
-.info {
-    color: rgb(0, 0, 0);
+.footer__section {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-card-input);
+  border-top: 1px solid var(--color-border);
+  padding: 16px 0;
+  width: 100%;
 }
 
 .left__side {
-    display: flex;
-    gap: 5px
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .logo img {
-    width: 30px;
+  width: 30px;
 }
 
-.footer__section {
-    display: flex;
-    /* justify-content: space-between; */
-    justify-content: center;
-    background-color: rgba(255, 255, 255);
-    height: 5%;
-    width: 100%;
+.info {
+  color: var(--color-text-primary);
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
 }

@@ -1,7 +1,4 @@
-// src/pages/analysis/Analysis.tsx
 import React, { useEffect, useState } from "react";
-import { Header } from "../../components/header";
-import { Footer } from "../../components/footer";
 import { Text } from "../../ui/text";
 import { useAppSelector } from "../../hooks/hooks";
 import {
@@ -19,8 +16,6 @@ import {
 } from "recharts";
 import { API_URL } from "../../utils/api";
 import style from "./analysis.module.css";
-
-// ─── Типы ────────────────────────────────────────────────────────────────────
 
 type Recommendation = {
   type: "danger" | "warning" | "info" | "success";
@@ -44,8 +39,6 @@ type AnalysisData = {
   }>;
   recommendations: Recommendation[];
 };
-
-// ─── Утилиты ─────────────────────────────────────────────────────────────────
 
 const REC_COLORS: Record<string, string> = {
   danger: "#e74c3c",
@@ -76,7 +69,6 @@ const TREND_ICONS: Record<string, string> = {
   "недостаточно данных": "—",
 };
 
-// Нормы для радар-чарта (0-100)
 function normalizeForRadar(averages: Record<string, number | null>) {
   return [
     {
@@ -103,8 +95,6 @@ function normalizeForRadar(averages: Record<string, number | null>) {
     },
   ];
 }
-
-// ─── Компонент AI-анализа ─────────────────────────────────────────────────────
 
 function AiInsight({ data }: { data: AnalysisData }) {
   const token =
@@ -164,8 +154,6 @@ function AiInsight({ data }: { data: AnalysisData }) {
   );
 }
 
-// ─── Главный компонент ────────────────────────────────────────────────────────
-
 export const Analysis: React.FC = () => {
   const token =
     useAppSelector((s) => s.auth.token) || localStorage.getItem("token");
@@ -193,28 +181,23 @@ export const Analysis: React.FC = () => {
   if (loading)
     return (
       <>
-        <Header />
         <main className={style.page}>
           <Text style="H4">Загружаем анализ...</Text>
         </main>
-        <Footer />
       </>
     );
   if (error)
     return (
       <>
-        <Header />
         <main className={style.page}>
           <Text style="H4">Ошибка: {error}</Text>
         </main>
-        <Footer />
       </>
     );
   if (!data) return null;
 
   const radarData = normalizeForRadar(data.averages);
 
-  // Данные для графика корреляций
   const corrData = [
     {
       name: "Сон ↔ Стресс",
@@ -231,9 +214,7 @@ export const Analysis: React.FC = () => {
 
   return (
     <>
-      <Header />
       <main className={style.page}>
-        {/* Заголовок */}
         <div className={style.hero}>
           <Text style="H2">Глубокий анализ</Text>
           <Text style="H4">
@@ -242,7 +223,6 @@ export const Analysis: React.FC = () => {
           </Text>
         </div>
 
-        {/* Средние показатели */}
         <section className={style.section}>
           <Text style="H3">Средние показатели</Text>
           <div className={style.statsGrid}>
@@ -264,7 +244,6 @@ export const Analysis: React.FC = () => {
           </div>
         </section>
 
-        {/* Радар + лучший/худший день */}
         <section className={style.section}>
           <div className={style.twoCol}>
             <div>
@@ -286,7 +265,7 @@ export const Analysis: React.FC = () => {
             </div>
 
             <div className={style.daysBlock}>
-              <Text style="H3">Экстремальные дни</Text>
+              <Text style="H3">Лучший/худший день</Text>
               {data.best_day && (
                 <div className={`${style.dayCard} ${style.best}`}>
                   <div className={style.dayEmoji}>🏆</div>
@@ -315,7 +294,6 @@ export const Analysis: React.FC = () => {
           </div>
         </section>
 
-        {/* Корреляции */}
         <section className={style.section}>
           <Text style="H3">Корреляции между метриками</Text>
           <Text style="H4">От −1 (обратная) до +1 (прямая связь)</Text>
@@ -346,7 +324,6 @@ export const Analysis: React.FC = () => {
           </div>
         </section>
 
-        {/* Привычки */}
         {data.habit_completion.length > 0 && (
           <section className={style.section}>
             <Text style="H3">Выполнение привычек за 30 дней</Text>
@@ -377,7 +354,6 @@ export const Analysis: React.FC = () => {
           </section>
         )}
 
-        {/* Рекомендации */}
         <section className={style.section}>
           <Text style="H3">Рекомендации системы</Text>
           <div className={style.recList}>
@@ -394,12 +370,10 @@ export const Analysis: React.FC = () => {
           </div>
         </section>
 
-        {/* AI анализ */}
         <section className={style.section}>
           <AiInsight data={data} />
         </section>
       </main>
-      <Footer />
     </>
   );
 };

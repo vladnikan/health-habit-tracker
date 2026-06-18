@@ -1,78 +1,88 @@
-/* =========================
-   RESET & BASE
-========================= */
-
 :root {
-  /* Colors */
-  --text: #2d2d2d;
-  --text-secondary: #6b7280;
+  --color-teal-dark: #257a74;
+  --color-teal: #2a9d8f;
+  --color-green-mid: #4daa6e;
+  --color-green-light: #7dc97a;
+  --color-mint: #c8f0c0;
 
-  --background: #ffffff;
-  --surface: #f8fafc;
+  --color-accent: var(--color-teal-dark);
+  --color-accent-hover: var(--color-teal);
+  --color-accent-subtle: rgba(37, 122, 116, 0.08);
+  --color-button-hover: var(--color-teal);
+  --color-text-link-button-pressed: #1a5b56;
+  --color-disabled: #d6ece8;
 
-  --border: #e5e7eb;
+  --accent-text: #ffffff;
 
-  --primary: #7c3aed;
-  --primary-hover: #6d28d9;
+  --color-bg-page: #f0faf8;
+  --color-bg-card: rgba(255, 255, 255, 0.88);
+  --color-bg-secondary: rgba(255, 255, 255, 0.7);
+  --color-card-input: #ffffff;
+  --color-background-secondary: #ffffff;
 
-  --success: #22c55e;
-  --danger: #ef4444;
-  --warning: #f59e0b;
+  --color-border: rgba(125, 201, 122, 0.4);
+  --color-border-strong: var(--color-green-light);
+  --color-border-tertiary: rgba(125, 201, 122, 0.35);
 
-  /* Shadows */
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.05);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --color-text: var(--color-teal-dark);
+  --color-text-primary: #1a4a46;
+  --color-text-secondary: #4daa6e;
+  --color-caption: #7dc97a;
 
-  /* Radius */
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 20px;
+  --background: var(--color-bg-page);
+  --surface: var(--color-card-input);
+  --text: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --border: var(--color-border);
+  --primary: var(--color-accent);
+  --primary-hover: var(--color-accent-hover);
 
-  /* Typography */
-  --font-sans:
-    Inter, system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI',
-    sans-serif;
-
-  --transition: 0.2s ease;
-
-  color-scheme: light dark;
-
-  font-family: var(--font-sans);
-  color: var(--text);
-  background-color: var(--background);
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  --shadow-sm: 0 2px 8px rgba(37, 122, 116, 0.08);
+  --shadow-md: 0 6px 20px rgba(37, 122, 116, 0.16);
 }
 
-/* =========================
-   DARK THEME
-========================= */
+[data-theme="dark"] {
+  --color-teal-dark: #2a9d8f;
+  --color-teal: #4daa6e;
+  --color-green-mid: #56b870;
+  --color-green-light: #7dc97a;
+  --color-mint: #2e4a44;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --text: #f3f4f6;
-    --text-secondary: #9ca3af;
+  --color-accent: #2a9d8f;
+  --color-accent-hover: #36b6a6;
+  --color-accent-subtle: rgba(125, 201, 122, 0.12);
+  --color-button-hover: #36b6a6;
+  --color-text-link-button-pressed: #7dc97a;
+  --color-disabled: #2a3b38;
 
-    --background: #111827;
-    --surface: #1f2937;
+  --accent-text: #0f2421;
 
-    --border: #374151;
+  --color-bg-page: #0f2421;
+  --color-bg-card: #1a3a36;
+  --color-bg-secondary: #1a3a36;
+  --color-card-input: #1a3a36;
+  --color-background-secondary: #1a3a36;
 
-    --primary: #a855f7;
-    --primary-hover: #9333ea;
+  --color-border: rgba(125, 201, 122, 0.25);
+  --color-border-strong: rgba(125, 201, 122, 0.4);
+  --color-border-tertiary: rgba(125, 201, 122, 0.2);
 
-    --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.3);
-    --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.35);
-  }
+  --color-text: #e8f5f2;
+  --color-text-primary: #e8f5f2;
+  --color-text-secondary: #9fd9c8;
+  --color-caption: #7dc97a;
+
+  --background: var(--color-bg-page);
+  --surface: var(--color-card-input);
+  --text: var(--color-text-primary);
+  --text-secondary: var(--color-text-secondary);
+  --border: var(--color-border);
+  --primary: var(--color-accent);
+  --primary-hover: var(--color-accent-hover);
+
+  --shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.35);
+  --shadow-md: 0 6px 20px rgba(0, 0, 0, 0.45);
 }
-
-/* =========================
-   RESET
-========================= */
 
 *,
 *::before,
@@ -89,31 +99,23 @@ html {
   scroll-behavior: smooth;
 }
 
-/* =========================
-   BODY
-========================= */
-
 body {
   min-width: 320px;
   min-height: 100vh;
 
   background: var(--background);
-  /* color: var(--text); */
+  color: var(--text);
 
   line-height: 1.5;
-}
 
-/* =========================
-   ROOT
-========================= */
+  transition:
+    background-color 0.25s ease,
+    color 0.25s ease;
+}
 
 #root {
   min-height: 100vh;
 }
-
-/* =========================
-   TYPOGRAPHY
-========================= */
 
 h1,
 h2,
@@ -121,7 +123,6 @@ h3,
 h4,
 h5,
 h6 {
-  /* color: var(--text); */
   font-weight: 600;
   line-height: 1.2;
 }
@@ -140,10 +141,6 @@ ol {
   list-style: none;
 }
 
-/* =========================
-   MEDIA
-========================= */
-
 img,
 picture,
 video,
@@ -152,10 +149,6 @@ svg {
   display: block;
   max-width: 100%;
 }
-
-/* =========================
-   FORM ELEMENTS
-========================= */
 
 button,
 input,
@@ -178,10 +171,6 @@ select {
   color: inherit;
 }
 
-/* =========================
-   UTILITIES
-========================= */
-
 .container {
   width: 100%;
   max-width: 1200px;
@@ -193,10 +182,6 @@ select {
 .section {
   padding: 80px 0;
 }
-
-/* =========================
-   SCROLLBAR
-========================= */
 
 ::-webkit-scrollbar {
   width: 10px;

@@ -5,7 +5,7 @@ import { Button } from "../../ui/button";
 import { Input } from "../../ui/input";
 import { useAppDispatch } from "../../hooks/hooks";
 import { createHabit } from "../../store/habit/thunks";
-import style from "./AddHabitModal.module.css";
+import style from "./addHabitModal.module.css";
 
 type Props = {
   onClose: () => void;

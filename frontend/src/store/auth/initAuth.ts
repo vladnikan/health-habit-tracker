@@ -1,4 +1,3 @@
-// src/store/auth/initAuth.ts
 import type { AppDispatch, RootState } from "../store";
 import { authActions } from "./slice";
 import { authThunks } from "./thunks";

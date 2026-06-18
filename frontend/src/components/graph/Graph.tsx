@@ -27,8 +27,12 @@ type GraphProps = {
   data: any[];
   xKey?: string;
   yKey?: string;
-  nameKey?: string; // для pie / radar
+  nameKey?: string;
 };
+
+const COLOR = "#4f75ff";
+const GRID = "#e5e7eb";
+const TEXT = "#6b7280";
 
 export const Graph = ({
   type,
@@ -37,17 +41,31 @@ export const Graph = ({
   yKey = "value",
   nameKey = "name",
 }: GraphProps) => {
+  const tooltipStyle = {
+    backgroundColor: "#fff",
+    border: "1px solid #e5e7eb",
+    borderRadius: "8px",
+    color: "#111",
+  };
+
   switch (type) {
     case "line":
       return (
         <ResponsiveContainer width="100%" height={300}>
           <LineChart data={data}>
-            <CartesianGrid />
-            <XAxis dataKey={xKey} />
-            <YAxis />
-            <Tooltip />
+            <CartesianGrid stroke={GRID} />
+            <XAxis dataKey={xKey} tick={{ fill: TEXT }} />
+            <YAxis tick={{ fill: TEXT }} />
+            <Tooltip contentStyle={tooltipStyle} />
             <Legend />
-            <Line type="monotone" dataKey={yKey} />
+            <Line
+              type="monotone"
+              dataKey={yKey}
+              stroke={COLOR}
+              strokeWidth={2}
+              dot={{ r: 3, fill: COLOR }}
+              activeDot={{ r: 6 }}
+            />
           </LineChart>
         </ResponsiveContainer>
       );
@@ -56,12 +74,12 @@ export const Graph = ({
       return (
         <ResponsiveContainer width="100%" height={300}>
           <BarChart data={data}>
-            <CartesianGrid />
-            <XAxis dataKey={xKey} />
-            <YAxis />
-            <Tooltip />
+            <CartesianGrid stroke={GRID} />
+            <XAxis dataKey={xKey} tick={{ fill: TEXT }} />
+            <YAxis tick={{ fill: TEXT }} />
+            <Tooltip contentStyle={tooltipStyle} />
             <Legend />
-            <Bar dataKey={yKey} />
+            <Bar dataKey={yKey} fill={COLOR} radius={[6, 6, 0, 0]} />
           </BarChart>
         </ResponsiveContainer>
       );
@@ -70,12 +88,17 @@ export const Graph = ({
       return (
         <ResponsiveContainer width="100%" height={300}>
           <AreaChart data={data}>
-            <CartesianGrid />
-            <XAxis dataKey={xKey} />
-            <YAxis />
-            <Tooltip />
+            <CartesianGrid stroke={GRID} />
+            <XAxis dataKey={xKey} tick={{ fill: TEXT }} />
+            <YAxis tick={{ fill: TEXT }} />
+            <Tooltip contentStyle={tooltipStyle} />
             <Legend />
-            <Area type="monotone" dataKey={yKey} />
+            <Area
+              type="monotone"
+              dataKey={yKey}
+              stroke={COLOR}
+              fill="rgba(79, 117, 255, 0.2)"
+            />
           </AreaChart>
         </ResponsiveContainer>
       );
@@ -84,9 +107,9 @@ export const Graph = ({
       return (
         <ResponsiveContainer width="100%" height={300}>
           <PieChart>
-            <Tooltip />
+            <Tooltip contentStyle={tooltipStyle} />
             <Legend />
-            <Pie data={data} dataKey={yKey} nameKey={nameKey} />
+            <Pie data={data} dataKey={yKey} nameKey={nameKey} fill={COLOR} />
           </PieChart>
         </ResponsiveContainer>
       );
@@ -95,10 +118,11 @@ export const Graph = ({
       return (
         <ResponsiveContainer width="100%" height={300}>
           <RadarChart data={data}>
-            <PolarGrid />
-            <PolarAngleAxis dataKey={nameKey} />
-            <PolarRadiusAxis />
-            <Radar dataKey={yKey} />
+            <PolarGrid stroke={GRID} />
+            <PolarAngleAxis dataKey={nameKey} tick={{ fill: TEXT }} />
+            <PolarRadiusAxis tick={{ fill: TEXT }} />
+            <Radar dataKey={yKey} stroke={COLOR} fill="rgba(79, 117, 255, 0.3)" />
+            <Tooltip contentStyle={tooltipStyle} />
             <Legend />
           </RadarChart>
         </ResponsiveContainer>

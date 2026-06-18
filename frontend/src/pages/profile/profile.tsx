@@ -1,86 +1,94 @@
-// src/pages/profile/Profile.tsx
 import { useEffect, useState } from "react";
-import { Header } from "../../components/header";
-import { Footer } from "../../components/footer";
 import { Text } from "../../ui/text";
 import { Input } from "../../ui/input";
 import { Button } from "../../ui/button";
-import { useAppSelector } from "../../hooks/hooks";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import { fetchGoals, saveGoal } from "../../store/goal/thunks";
+import { useNavigate } from "react-router-dom";
+import { authThunks } from "../../store/auth/thunks";
 import style from "./profile.module.css";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
-
-type Goal = {
-  id: number;
-  metric: string;
-  target_value: number;
-};
-
-const METRIC_CONFIG: Record<string, { label: string; unit: string; placeholder: string; default: number }> = {
-  sleep:      { label: "Сон",    unit: "часов",  placeholder: "8",     default: 8 },
-  water:      { label: "Вода",   unit: "литров", placeholder: "2",     default: 2 },
-  steps:      { label: "Шаги",   unit: "шагов",  placeholder: "8000",  default: 8000 },
-  heart_rate: { label: "Пульс",  unit: "уд/мин", placeholder: "70",    default: 70 },
-  stress:     { label: "Стресс", unit: "/ 100",  placeholder: "30",    default: 30 },
+const METRIC_CONFIG: Record<
+  string,
+  { label: string; unit: string; hint: string; default: number }
+> = {
+  sleep: {
+    label: "Сон",
+    unit: "часов",
+    hint: "Норма ВОЗ: 7–9 часов",
+    default: 8,
+  },
+  water: {
+    label: "Вода",
+    unit: "литров",
+    hint: "Норма: 30 мл на кг веса",
+    default: 2,
+  },
+  steps: {
+    label: "Шаги",
+    unit: "шагов",
+    hint: "Норма ВОЗ: 7500–10 000",
+    default: 8000,
+  },
+  heart_rate: {
+    label: "Пульс",
+    unit: "уд/мин",
+    hint: "Норма покоя: 60–100 уд/мин",
+    default: 70,
+  },
+  stress: {
+    label: "Стресс",
+    unit: "/ 100",
+    hint: "Комфортный уровень: до 40",
+    default: 30,
+  },
 };
 
 export const Profile = () => {
-  const token = useAppSelector(s => s.auth.token) || localStorage.getItem("token");
-  const userData = useAppSelector(s => s.auth.userData);
+  const dispatch = useAppDispatch();
+  const userData = useAppSelector((s) => s.auth.userData);
+  const goalsFromStore = useAppSelector((s) => s.goals.goals);
+  const isLoading = useAppSelector((s) => s.goals.isLoading);
 
-  const [goals, setGoals] = useState<Record<string, number>>({});
+  const [localGoals, setLocalGoals] = useState<Record<string, number>>({});
   const [saved, setSaved] = useState(false);
-  const [loading, setLoading] = useState(false);
 
-  // Загружаем текущие цели
   useEffect(() => {
-    const load = async () => {
-      const res = await fetch(`${API_URL}/goals`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      if (!res.ok) return;
-      const data: Goal[] = await res.json();
+    dispatch(fetchGoals());
+  }, [dispatch]);
 
-      const map: Record<string, number> = {};
-      data.forEach(g => { map[g.metric] = g.target_value; });
-      setGoals(map);
-    };
-    load();
-  }, [token]);
+  useEffect(() => {
+    const map: Record<string, number> = {};
+    goalsFromStore.forEach((g) => {
+      map[g.metric_type] = g.target_value;
+    });
+    setLocalGoals(map);
+  }, [goalsFromStore]);
 
   const handleChange = (metric: string, value: string) => {
-    setGoals(prev => ({ ...prev, [metric]: parseFloat(value) || 0 }));
+    setLocalGoals((prev) => ({ ...prev, [metric]: parseFloat(value) || 0 }));
   };
 
   const handleSave = async () => {
-    setLoading(true);
-    setSaved(false);
-
-    // Сохраняем все цели параллельно
     await Promise.all(
-      Object.entries(goals).map(([metric, target_value]) =>
-        fetch(`${API_URL}/goals`, {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({ metric, target_value }),
-        })
-      )
+      Object.entries(localGoals).map(([metric, target_value]) =>
+        dispatch(saveGoal({ metric, target_value })),
+      ),
     );
-
-    setLoading(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
   };
 
+  const navigate = useNavigate();
+
+  const handleLogout = () => {
+    dispatch(authThunks.logout());
+    navigate("/login");
+  };
+
   return (
     <>
-      <Header />
       <main className={style.page}>
-
-        {/* Информация о пользователе */}
         <section className={style.section}>
           <Text style="H2">Профиль</Text>
           {userData && (
@@ -89,19 +97,20 @@ export const Profile = () => {
                 {userData.username?.[0]?.toUpperCase() ?? "?"}
               </div>
               <div>
-                <Text style="H3">{userData.full_name || userData.username}</Text>
+                <Text style="H3">
+                  {userData.full_name || userData.username}
+                </Text>
                 <Text style="H4">{userData.email}</Text>
               </div>
             </div>
           )}
+          <Button kind="secondary" text="Выйти из аккаунта" onClick={handleLogout} />
         </section>
-
-        {/* Персональные цели */}
         <section className={style.section}>
           <Text style="H2">Мои цели</Text>
           <Text style="H4">
-            Задайте личные целевые значения — система будет использовать их
-            для расчёта рекомендаций и оценки прогресса
+            Задайте личные целевые значения — система будет использовать их для
+            расчёта рекомендаций и оценки прогресса
           </Text>
 
           <div className={style.goalsGrid}>
@@ -113,35 +122,25 @@ export const Profile = () => {
                 </div>
                 <Input
                   type="number"
-                  placeholder={config.placeholder}
-                  value={goals[metric] ?? config.default}
-                  onChange={e => handleChange(metric, e.target.value)}
+                  placeholder={config.default.toString()}
+                  value={localGoals[metric] ?? config.default}
+                  onChange={(e) => handleChange(metric, e.target.value)}
                 />
-                {/* Подсказка — норма ВОЗ */}
-                <div className={style.hint}>
-                  {metric === "sleep"      && "Норма ВОЗ: 7–9 часов"}
-                  {metric === "water"      && "Норма: 30 мл на кг веса"}
-                  {metric === "steps"      && "Норма ВОЗ: 7500–10 000"}
-                  {metric === "heart_rate" && "Норма покоя: 60–100 уд/мин"}
-                  {metric === "stress"     && "Комфортный уровень: до 40"}
-                </div>
+                <div className={style.hint}>{config.hint}</div>
               </div>
             ))}
           </div>
-
           <div className={style.saveRow}>
             <Button
               kind="primary"
-              text={loading ? "Сохраняем..." : "Сохранить цели"}
+              text={isLoading ? "Загрузка..." : "Сохранить цели"}
               onClick={handleSave}
-              disabled={loading}
+              disabled={isLoading}
             />
             {saved && <span className={style.savedMsg}>✅ Цели сохранены</span>}
           </div>
         </section>
-
       </main>
-      <Footer />
     </>
   );
 };

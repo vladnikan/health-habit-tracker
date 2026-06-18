@@ -3,10 +3,6 @@ import type { THabitData, THabitCheck, CreateHabitDto, UpdateHabitDto } from "./
 import { getToken } from "../auth/token";
 import { API_URL } from "../../utils/api";
 
-// ========================
-// HABITS
-// ========================
-
 export const createHabit = createAsyncThunk<
   THabitData,
   CreateHabitDto,
@@ -115,10 +111,6 @@ export const deleteHabit = createAsyncThunk<
     return rejectWithValue(e.message);
   }
 });
-
-// ========================
-// CHECKS
-// ========================
 
 export const fetchChecks = createAsyncThunk<
   THabitCheck[],

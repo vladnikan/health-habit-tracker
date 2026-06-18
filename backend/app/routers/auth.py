@@ -1,15 +1,19 @@
-# backend/app/routers/auth.py
 from fastapi import APIRouter, Depends, HTTPException, status
-from fastapi.security import OAuth2PasswordRequestForm
-from sqlalchemy.ext.asyncio import AsyncSession
-from sqlalchemy import select
+from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
+from jose import JWTError, jwt
 
+from sqlalchemy import select
+from sqlalchemy.ext.asyncio import AsyncSession
+
+from app.core.config import SECRET_KEY, ALGORITHM
 from app.core.database import get_db
 from app.models.user import User
 from app.schemas.user import UserCreate, UserResponse
-from app.utils.security import get_password_hash, verify_password, create_access_token   # ← здесь должны быть все три
-from fastapi.security import OAuth2PasswordBearer
-from app.core.config import SECRET_KEY, ALGORITHM
+from app.utils.security import (
+    get_password_hash,
+    verify_password,
+    create_access_token,
+)
 
 oauth2_scheme = OAuth2PasswordBearer(tokenUrl="auth/login")
 
@@ -18,13 +22,19 @@ router = APIRouter(
     tags=["auth"]
 )
 
+
 @router.post("/register", response_model=UserResponse)
 async def register(user: UserCreate, db: AsyncSession = Depends(get_db)):
-    # Проверка существования
-    stmt = select(User).where((User.email == user.email) | (User.username == user.username))
+    stmt = select(User).where(
+        (User.email == user.email) | (User.username == user.username)
+    )
     result = await db.execute(stmt)
+
     if result.scalar_one_or_none():
-        raise HTTPException(status_code=400, detail="Пользователь с таким email или username уже существует")
+        raise HTTPException(
+            status_code=400,
+            detail="Пользователь с таким email или username уже существует",
+        )
 
     hashed_password = get_password_hash(user.password)
 
@@ -42,23 +52,29 @@ async def register(user: UserCreate, db: AsyncSession = Depends(get_db)):
     db.add(new_user)
     await db.commit()
     await db.refresh(new_user)
+
     return new_user
 
+
 @router.post("/login")
-async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSession = Depends(get_db)):
-    # Ищем пользователя по email
+async def login(
+    form_data: OAuth2PasswordRequestForm = Depends(),
+    db: AsyncSession = Depends(get_db),
+):
     stmt = select(User).where(User.email == form_data.username)
     result = await db.execute(stmt)
     user = result.scalar_one_or_none()
 
-    if not user or not verify_password(form_data.password, user.hashed_password):
+    if not user or not verify_password(
+        form_data.password,
+        user.hashed_password,
+    ):
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Неверный email или пароль",
             headers={"WWW-Authenticate": "Bearer"},
         )
 
-    # Создаём JWT токен
     access_token = create_access_token(
         data={"sub": user.email, "user_id": user.id}
     )
@@ -70,39 +86,49 @@ async def login(form_data: OAuth2PasswordRequestForm = Depends(), db: AsyncSessi
             "id": user.id,
             "email": user.email,
             "username": user.username,
-            "full_name": user.full_name
-        }
+            "full_name": user.full_name,
+        },
     }
 
-# В конец файла app/routers/auth.py добавь это:
 
-from fastapi import Depends
-from jose import JWTError, jwt
-
-async def get_current_user(token: str = Depends(oauth2_scheme), db: AsyncSession = Depends(get_db)):
+async def get_current_user(
+    token: str = Depends(oauth2_scheme),
+    db: AsyncSession = Depends(get_db),
+):
     credentials_exception = HTTPException(
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Could not validate credentials",
         headers={"WWW-Authenticate": "Bearer"},
     )
+
     try:
-        payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
+        payload = jwt.decode(
+            token,
+            SECRET_KEY,
+            algorithms=[ALGORITHM],
+        )
         email: str = payload.get("sub")
+
         if email is None:
             raise credentials_exception
+
     except JWTError:
         raise credentials_exception
 
     stmt = select(User).where(User.email == email)
     result = await db.execute(stmt)
     user = result.scalar_one_or_none()
-    
+
     if user is None:
         raise credentials_exception
+
     return user
 
+
 @router.get("/user")
-async def get_user(current_user: User = Depends(get_current_user)):
+async def get_user(
+    current_user: User = Depends(get_current_user),
+):
     return {
         "id": current_user.id,
         "email": current_user.email,

@@ -1,9 +1,6 @@
-# backend/app/main.py
 from fastapi import FastAPI, Depends
 from fastapi.middleware.cors import CORSMiddleware
 from dotenv import load_dotenv
-
-# ←←← ВАЖНО: Импортируем модели, чтобы они зарегистрировались
 from app.models.user import User
 from app.models.habit import Habit
 
@@ -14,6 +11,7 @@ from app.routers import metrics
 
 from app.routers import analysis
 from app.routers import goals
+from app.routers import notifications
 
 
 load_dotenv()
@@ -24,10 +22,9 @@ app = FastAPI(
     version="1.0.0"
 )
 
-# CORS
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],  # добавили оба варианта
+    allow_origins=["http://localhost:5173", "http://127.0.0.1:5173"],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],)
@@ -40,21 +37,21 @@ async def root():
         "database": "Подключение настроено"
     }
 
-# Создание таблиц при старте
 @app.on_event("startup")
 async def startup_event():
     try:
         async with engine.begin() as conn:
             await conn.run_sync(Base.metadata.create_all)
-        print("✅ Таблицы успешно созданы или уже существуют")
+        print("Таблицы успешно созданы или уже существуют")
     except Exception as e:
-        print(f"❌ Ошибка при создании таблиц: {e}")
+        print(f"Ошибка при создании таблиц: {e}")
 
 app.include_router(auth.router)
 app.include_router(habits.router)
 app.include_router(metrics.router)
 app.include_router(analysis.router)
 app.include_router(goals.router)
+app.include_router(notifications.router)
 
 @app.get("/me", response_model=dict)
 async def read_users_me(current_user: User = Depends(get_current_user)):

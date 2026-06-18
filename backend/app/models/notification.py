@@ -12,7 +12,7 @@ class NotificationLog(Base):
     
     title = Column(String(100), nullable=False)
     message = Column(String(255), nullable=False)
-    type = Column(String(30), nullable=False)          # reminder, achievement, system, motivation
+    type = Column(String(30), nullable=False)
     
     sent_at = Column(DateTime(timezone=True), server_default=func.now())
     is_read = Column(Boolean, default=False)

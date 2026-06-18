@@ -4,8 +4,8 @@ import { Graph, type GraphType } from "../graph/Graph";
 import style from "./graphSwitcher.module.css";
 
 type GraphConfig = {
-  label: string;         // что пишем на кнопке
-  type: GraphType;       // line / bar / pie
+  label: string;
+  type: GraphType;
   data: any[];
   xKey?: string;
   yKey?: string;
@@ -23,8 +23,7 @@ export const GraphSwitcher = ({ configs }: GraphSwitcherProps) => {
 
   return (
     <div className={style.wrapper}>
-      
-      {/* 🔝 переключатель */}
+
       <div className={style.header}>
         {configs.map((cfg, index) => (
           <Button
@@ -36,7 +35,6 @@ export const GraphSwitcher = ({ configs }: GraphSwitcherProps) => {
         ))}
       </div>
 
-      {/* 📊 график */}
       <div className={style.graph}>
         <Graph
           type={active.type}

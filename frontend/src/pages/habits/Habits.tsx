@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import style from "./habits.module.css";
-import { Header } from "../../components/header";
-import { Footer } from "../../components/footer";
 import { Button } from "../../ui/button";
 import { CardCheck } from "../../components/cardCheck/CardCheck";
 import { AddHabitModal } from "../../components/addHabitModal/AddHabitModal";
@@ -39,8 +37,6 @@ export const Habits = () => {
 
   return (
     <div className={style.page}>
-      <Header />
-
       <main className={style.main}>
         <div className={style.header}>
           <div>
@@ -74,6 +70,8 @@ export const Habits = () => {
                   targetValue={habit.target_value || 0}
                   unit={habit.unit || ""}
                   onEdit={() => setEditingHabit(habit)}
+                  createdAt={habit.created_at}
+                  endDate={habit.end_date ?? null}
                 />
               ))}
             </div>
@@ -97,8 +95,6 @@ export const Habits = () => {
           onClose={() => setEditingHabit(null)}
         />
       )}
-
-      <Footer />
     </div>
   );
 };

@@ -23,7 +23,7 @@ class UserResponse(BaseModel):
     weight: Optional[float] = None
     birth_date: Optional[date] = None
     is_active: bool = True
-    created_at: datetime          # ← Изменено с date на datetime
+    created_at: datetime
 
     class Config:
         from_attributes = True

@@ -29,7 +29,7 @@ const meta: Meta<typeof Text> = {
       options: ['h1', 'h2', 'h3', 'h4', 'div', 'span', 'p']
     },
     children: {
-      control: false // текст фиксированный, как в макете
+      control: false
     }
   },
   parameters: {
@@ -60,7 +60,6 @@ export const AllStyles: Story = {
         width: 800
       }}
     >
-      {/* NORMAL */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {STYLES.map((style) => (
           <Text key={style} style={style}>
@@ -69,7 +68,6 @@ export const AllStyles: Story = {
         ))}
       </div>
 
-      {/* LARGE */}
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {STYLES.map((style) => (
           <Text key={style} style={style} size='large'>

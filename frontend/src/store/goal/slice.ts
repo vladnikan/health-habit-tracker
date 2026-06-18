@@ -28,7 +28,7 @@ const goalSlice = createSlice({
       })
       .addCase(saveGoal.fulfilled, (state, action) => {
         const index = state.goals.findIndex(
-          g => g.metric === action.payload.metric
+          g => g.metric_type === action.payload.metric_type
         );
         if (index !== -1) {
           state.goals[index] = action.payload;

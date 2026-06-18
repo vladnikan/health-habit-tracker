@@ -1,4 +1,3 @@
-# backend/app/schemas/habit.py
 from pydantic import BaseModel
 from typing import Optional
 from datetime import datetime, date
@@ -7,12 +6,12 @@ from datetime import datetime, date
 class HabitCreate(BaseModel):
     name: str
     description: Optional[str] = None
-    frequency: str = "daily"                    # daily, weekly
+    frequency: str = "daily"
     target_value: Optional[float] = None
     unit: Optional[str] = None
-    duration_type: str = "indefinite"           # indefinite или end_date
+    duration_type: str = "indefinite"
     end_date: Optional[date] = None
-    reminder_time: Optional[str] = None         # "09:00"
+    reminder_time: Optional[str] = None
 
 
 class HabitResponse(BaseModel):
@@ -27,8 +26,8 @@ class HabitResponse(BaseModel):
     end_date: Optional[date] = None
     reminder_time: Optional[str] = None
     is_active: bool = True
-    current_streak: int = 0          # ← добавили
-    longest_streak: int = 0          # ← добавили
+    current_streak: int = 0
+    longest_streak: int = 0
     created_at: datetime
 
     class Config:

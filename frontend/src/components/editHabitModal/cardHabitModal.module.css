@@ -1,4 +1,3 @@
-/* Overlay — затемнение на весь экран */
 .overlay {
   position: fixed;
   inset: 0;
@@ -10,7 +9,6 @@
   color: black;
 }
 
-/* Само окно */
 .modal {
   background: white;
   border-radius: 16px;
